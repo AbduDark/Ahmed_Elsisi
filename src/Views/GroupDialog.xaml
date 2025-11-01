@@ -1,0 +1,101 @@
+<Window x:Class="LineManagementSystem.Views.GroupDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="إضافة/تعديل مجموعة"
+        Height="550" Width="600"
+        WindowStartupLocation="CenterOwner"
+        FlowDirection="RightToLeft"
+        Background="#F5F5F5"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="بيانات المجموعة"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="اسم المجموعة" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtGroupName"
+                         Padding="10"
+                         FontSize="14"
+                         Margin="0,0,0,15"/>
+
+                <TextBlock Text="حالة المجموعة" FontWeight="Bold" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cmbStatus"
+                          Padding="10"
+                          FontSize="14"
+                          Margin="0,0,0,15"/>
+
+                <CheckBox x:Name="chkRequiresCashWallet"
+                          Content="تتطلب محفظة كاش (تجديد كل 60 يوم)"
+                          FontWeight="Bold"
+                          Margin="0,0,0,15"
+                          Checked="ChkRequiresCashWallet_Changed"
+                          Unchecked="ChkRequiresCashWallet_Changed"/>
+
+                <TextBlock x:Name="lblLastRenewed" Text="آخر تجديد" FontWeight="Bold" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dtpLastRenewed"
+                            Padding="10"
+                            FontSize="14"
+                            Margin="0,0,0,15"/>
+
+                <TextBlock Text="الموظف المسؤول (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtEmployee"
+                         Padding="10"
+                         FontSize="14"
+                         Margin="0,0,0,15"/>
+
+                <TextBlock Text="العميل المُسلم له (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtCustomer"
+                         Padding="10"
+                         FontSize="14"
+                         Margin="0,0,0,15"/>
+
+                <TextBlock Text="موعد التسليم المتوقع (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dtpHandoverDate"
+                            Padding="10"
+                            FontSize="14"
+                            Margin="0,0,0,15"/>
+
+                <CheckBox x:Name="chkIsHandedOver"
+                          Content="تم التسليم بالفعل"
+                          FontWeight="Bold"
+                          Margin="0,0,0,15"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,20,0,0">
+            <Button Content="حفظ"
+                    Width="100"
+                    Padding="10"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Background="#4CAF50"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Margin="0,0,10,0"
+                    Click="BtnSave_Click"/>
+            <Button Content="إلغاء"
+                    Width="100"
+                    Padding="10"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Background="#9E9E9E"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

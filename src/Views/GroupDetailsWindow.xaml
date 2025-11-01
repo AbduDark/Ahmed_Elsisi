@@ -1,0 +1,169 @@
+<Window x:Class="LineManagementSystem.Views.GroupDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding Group.Name, StringFormat='تفاصيل المجموعة: {0}'}"
+        Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="{Binding Group.Name, StringFormat='المجموعة: {0}'}" 
+                       FontSize="28" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Group.GetLineCount, StringFormat='عدد الخطوط: {0} من 50'}" 
+                       FontSize="16" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Content="+ إضافة خط جديد"
+                    Style="{StaticResource ActionButton}"
+                    Background="#4CAF50"
+                    Command="{Binding AddLineCommand}"/>
+            <Button Content="تعديل الخط"
+                    Style="{StaticResource ActionButton}"
+                    Background="#2196F3"
+                    Command="{Binding EditLineCommand}"/>
+            <Button Content="حذف الخط"
+                    Style="{StaticResource ActionButton}"
+                    Background="#F44336"
+                    Command="{Binding DeleteLineCommand}"/>
+        </StackPanel>
+
+        <Border Grid.Row="2" 
+                Background="White" 
+                Padding="20" 
+                Margin="0,0,0,10"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                Visibility="{Binding IsAddingLine, Converter={StaticResource BoolToVis}}">
+            <StackPanel>
+                <TextBlock Text="إضافة/تعديل خط" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+                <TextBlock Text="ملاحظة: اضغط Enter بعد كل حقل للانتقال تلقائياً للحقل التالي (دعم QR Scanner)" 
+                           FontSize="12" Foreground="#666" Margin="0,0,0,10"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
+                        <TextBlock Text="اسم الشخص المرتبط" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtName"
+                                 Text="{Binding NewLine.Name, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
+                        <TextBlock Text="الرقم القومي" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtNationalId"
+                                 Text="{Binding NewLine.NationalId, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 MaxLength="14"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="5">
+                        <TextBlock Text="رقم الخط" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtPhoneNumber"
+                                 Text="{Binding NewLine.PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="5">
+                        <TextBlock Text="ID داخلي" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtInternalId"
+                                 Text="{Binding NewLine.InternalId, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="5">
+                        <CheckBox x:Name="chkHasCashWallet"
+                                  Content="يملك محفظة كاش"
+                                  IsChecked="{Binding NewLine.HasCashWallet}"
+                                  FontWeight="Bold"
+                                  Margin="0,10,0,5"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="5">
+                        <TextBlock Text="رقم المحفظة (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCashWalletNumber"
+                                 Text="{Binding NewLine.CashWalletNumber, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 IsEnabled="{Binding NewLine.HasCashWallet}"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5" HorizontalAlignment="Left">
+                        <Button Content="حفظ الخط"
+                                Style="{StaticResource ActionButton}"
+                                Background="#4CAF50"
+                                Command="{Binding SaveLineCommand}"/>
+                        <Button Content="إلغاء"
+                                Style="{StaticResource ActionButton}"
+                                Background="#9E9E9E"
+                                Command="{Binding CancelAddLineCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Grid.Row="3"
+                  ItemsSource="{Binding Lines}"
+                  SelectedItem="{Binding SelectedLine}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  SelectionMode="Single"
+                  Background="White"
+                  BorderBrush="#DDD"
+                  BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="اسم الشخص" Binding="{Binding Name}" Width="*" FontSize="14"/>
+                <DataGridTextColumn Header="الرقم القومي" Binding="{Binding NationalId}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="رقم الخط" Binding="{Binding PhoneNumber}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="ID داخلي" Binding="{Binding InternalId}" Width="100" FontSize="14"/>
+                <DataGridCheckBoxColumn Header="محفظة كاش" Binding="{Binding HasCashWallet}" Width="100"/>
+                <DataGridTextColumn Header="رقم المحفظة" Binding="{Binding CashWalletNumber}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="تاريخ الإنشاء" Binding="{Binding CreatedAt, StringFormat='yyyy-MM-dd HH:mm'}" Width="150" FontSize="14"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

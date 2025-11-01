@@ -1,0 +1,98 @@
+<Window x:Class="LineManagementSystem.Views.ProviderGroupsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding Provider, StringFormat='مجموعات {0}'}"
+        Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="5"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" 
+                   Text="{Binding Provider, StringFormat='إدارة مجموعات {0}'}"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Margin="0,0,0,20"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Content="+ إضافة مجموعة جديدة"
+                    Style="{StaticResource ActionButton}"
+                    Background="#4CAF50"
+                    Command="{Binding AddGroupCommand}"/>
+            <Button Content="تعديل المجموعة"
+                    Style="{StaticResource ActionButton}"
+                    Background="#2196F3"
+                    Command="{Binding EditGroupCommand}"/>
+            <Button Content="حذف المجموعة"
+                    Style="{StaticResource ActionButton}"
+                    Background="#F44336"
+                    Command="{Binding DeleteGroupCommand}"/>
+            <Button Content="تجديد الصلاحية (60 يوم)"
+                    Style="{StaticResource ActionButton}"
+                    Background="#FF9800"
+                    Command="{Binding RenewLicenseCommand}"/>
+            <Button Content="عرض التفاصيل والخطوط"
+                    Style="{StaticResource ActionButton}"
+                    Background="#9C27B0"
+                    Command="{Binding ViewGroupDetailsCommand}"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding Groups}"
+                  SelectedItem="{Binding SelectedGroup}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  SelectionMode="Single"
+                  Background="White"
+                  BorderBrush="#DDD"
+                  BorderThickness="1"
+                  RowBackground="White"
+                  AlternatingRowBackground="#F9F9F9">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="اسم المجموعة" Binding="{Binding Name}" Width="*" FontSize="14"/>
+                <DataGridTextColumn Header="الحالة" Binding="{Binding Status}" Width="100" FontSize="14"/>
+                <DataGridTextColumn Header="عدد الخطوط" Binding="{Binding GetLineCount}" Width="100" FontSize="14"/>
+                <DataGridTextColumn Header="محفظة كاش؟" Binding="{Binding RequiresCashWallet}" Width="100" FontSize="14"/>
+                <DataGridTextColumn Header="آخر تجديد" Binding="{Binding LastRenewedOn, StringFormat='yyyy-MM-dd'}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="التجديد القادم" Binding="{Binding NextRenewalDue, StringFormat='yyyy-MM-dd'}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="الأيام المتبقية" Binding="{Binding GetRemainingDaysForRenewal}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="الموظف المسؤول" Binding="{Binding AssignedToEmployee}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="العميل" Binding="{Binding AssignedCustomer}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="موعد التسليم" Binding="{Binding ExpectedHandoverDate, StringFormat='yyyy-MM-dd'}" Width="120" FontSize="14"/>
+                <DataGridCheckBoxColumn Header="تم التسليم؟" Binding="{Binding IsHandedOver}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
