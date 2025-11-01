@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LineManagementSystem.Converters"
         mc:Ignorable="d"
         Title="{Binding Provider, StringFormat='مجموعات {0}'}"
         Height="600" Width="1000"
@@ -11,6 +12,8 @@
         Background="#F5F5F5">
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <local:ProviderToLogoConverter x:Key="ProviderToLogoConverter"/>
         <Style x:Key="ActionButton" TargetType="Button">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="15,8"/>
@@ -81,6 +84,30 @@
                   RowBackground="White"
                   AlternatingRowBackground="#F9F9F9">
             <DataGrid.Columns>
+                <DataGridTemplateColumn Header="الشعار" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Image Source="{Binding Provider, Converter={StaticResource ProviderToLogoConverter}}" 
+                                       Width="50" Height="50" 
+                                       Margin="5"
+                                       Stretch="Uniform"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="نوع" Width="60">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="/Resources/Images/business_group.jpg" 
+                                   Width="40" Height="40" 
+                                   Margin="2"
+                                   Stretch="Uniform"
+                                   Visibility="{Binding IsBusinessGroup, Converter={StaticResource BoolToVis}}"
+                                   ToolTip="مجموعة بيزنس"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="اسم المجموعة" Binding="{Binding Name}" Width="*" FontSize="14"/>
                 <DataGridTextColumn Header="الحالة" Binding="{Binding Status}" Width="100" FontSize="14"/>
                 <DataGridTextColumn Header="عدد الخطوط" Binding="{Binding GetLineCount}" Width="100" FontSize="14"/>
