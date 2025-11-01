@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LineManagementSystem.Converters"
         mc:Ignorable="d"
         Title="{Binding Group.Name, StringFormat='تفاصيل المجموعة: {0}'}"
         Height="700" Width="1200"
@@ -12,6 +13,10 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <local:ConfirmationLevelToColorConverter x:Key="ConfirmLevelToColor"/>
+        <local:ConfirmationLevel1VisibilityConverter x:Key="ConfirmLevel1Vis"/>
+        <local:ConfirmationLevel2VisibilityConverter x:Key="ConfirmLevel2Vis"/>
+        <local:ConfirmationLevel3VisibilityConverter x:Key="ConfirmLevel3Vis"/>
         <Style x:Key="ActionButton" TargetType="Button">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Padding" Value="15,8"/>
@@ -132,17 +137,42 @@
                                  KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5" HorizontalAlignment="Left">
-                        <Button Content="حفظ الخط"
-                                Style="{StaticResource ActionButton}"
-                                Background="#4CAF50"
-                                Command="{Binding SaveLineCommand}"/>
-                        <Button Content="إلغاء"
-                                Style="{StaticResource ActionButton}"
-                                Background="#9E9E9E"
-                                Command="{Binding CancelAddLineCommand}"/>
+                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="5">
+                        <TextBlock Text="تفاصيل إضافية (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtDetails"
+                                 Text="{Binding NewLine.Details, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 Height="60"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
                 </Grid>
+
+                <Border BorderBrush="#2196F3" BorderThickness="2" Background="#E3F2FD" Padding="10" Margin="5,10,5,5" Visibility="{Binding Group.IsBusinessGroup, Converter={StaticResource BoolToVis}}">
+                    <StackPanel>
+                        <TextBlock Text="مستوى التأكيد (Business Group)" FontWeight="Bold" FontSize="14" Margin="0,0,0,10"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="✓" Width="50" Height="50" FontSize="24" Margin="5" Background="#4CAF50" Foreground="White" Click="BtnConfirm1_Click" ToolTip="تأكيد مستوى 1"/>
+                            <Button Content="✓✓" Width="50" Height="50" FontSize="20" Margin="5" Background="#2196F3" Foreground="White" Click="BtnConfirm2_Click" ToolTip="تأكيد مستوى 2"/>
+                            <Button Content="✓✓✓" Width="50" Height="50" FontSize="18" Margin="5" Background="#9C27B0" Foreground="White" Click="BtnConfirm3_Click" ToolTip="تأكيد مستوى 3"/>
+                            <Button Content="إلغاء التأكيد" Width="100" Height="50" FontSize="12" Margin="5" Background="#FF5722" Foreground="White" Click="BtnConfirmClear_Click"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding NewLine.ConfirmationLevel, StringFormat='المستوى الحالي: {0}'}" FontSize="12" Margin="0,5,0,0" Foreground="#666"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" Margin="5,15,5,5" HorizontalAlignment="Left">
+                    <Button Content="حفظ الخط"
+                            Style="{StaticResource ActionButton}"
+                            Background="#4CAF50"
+                            Command="{Binding SaveLineCommand}"/>
+                    <Button Content="إلغاء"
+                            Style="{StaticResource ActionButton}"
+                            Background="#9E9E9E"
+                            Command="{Binding CancelAddLineCommand}"/>
+                </StackPanel>
             </StackPanel>
         </Border>
 
@@ -162,6 +192,18 @@
                 <DataGridTextColumn Header="ID داخلي" Binding="{Binding InternalId}" Width="100" FontSize="14"/>
                 <DataGridCheckBoxColumn Header="محفظة كاش" Binding="{Binding HasCashWallet}" Width="100"/>
                 <DataGridTextColumn Header="رقم المحفظة" Binding="{Binding CashWalletNumber}" Width="120" FontSize="14"/>
+                <DataGridTextColumn Header="التفاصيل" Binding="{Binding Details}" Width="150" FontSize="14"/>
+                <DataGridTemplateColumn Header="تأكيد" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="✓" FontSize="16" Foreground="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevelToColor}}" Margin="2" Visibility="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevel1Vis}}"/>
+                                <TextBlock Text="✓" FontSize="16" Foreground="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevelToColor}}" Margin="2" Visibility="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevel2Vis}}"/>
+                                <TextBlock Text="✓" FontSize="16" Foreground="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevelToColor}}" Margin="2" Visibility="{Binding ConfirmationLevel, Converter={StaticResource ConfirmLevel3Vis}}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="تاريخ الإنشاء" Binding="{Binding CreatedAt, StringFormat='yyyy-MM-dd HH:mm'}" Width="150" FontSize="14"/>
             </DataGrid.Columns>
         </DataGrid>

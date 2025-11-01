@@ -37,6 +37,8 @@ public partial class GroupDialog : Window
                 dtpHandoverDate.SelectedDate = existingGroup.ExpectedHandoverDate.Value;
             
             chkIsHandedOver.IsChecked = existingGroup.IsHandedOver;
+            chkIsBusinessGroup.IsChecked = existingGroup.IsBusinessGroup;
+            txtAdditionalDetails.Text = existingGroup.AdditionalDetails ?? string.Empty;
         }
 
         UpdateRenewalFieldsVisibility();
@@ -83,6 +85,8 @@ public partial class GroupDialog : Window
         group.AssignedCustomer = string.IsNullOrWhiteSpace(txtCustomer.Text) ? null : txtCustomer.Text.Trim();
         group.ExpectedHandoverDate = dtpHandoverDate.SelectedDate;
         group.IsHandedOver = chkIsHandedOver.IsChecked == true;
+        group.IsBusinessGroup = chkIsBusinessGroup.IsChecked == true;
+        group.AdditionalDetails = string.IsNullOrWhiteSpace(txtAdditionalDetails.Text) ? null : txtAdditionalDetails.Text.Trim();
 
         if (group.IsHandedOver && !group.ActualHandoverDate.HasValue)
         {

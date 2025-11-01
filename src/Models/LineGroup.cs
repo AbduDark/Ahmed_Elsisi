@@ -35,6 +35,11 @@ public class LineGroup
 
     public DateTime? ActualHandoverDate { get; set; }
 
+    [MaxLength(1000)]
+    public string? AdditionalDetails { get; set; }
+
+    public bool IsBusinessGroup { get; set; } = false;
+
     public int MaxLines { get; set; } = 50;
 
     public List<PhoneLine> Lines { get; set; } = new();

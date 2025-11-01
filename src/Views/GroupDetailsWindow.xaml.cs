@@ -59,6 +59,38 @@ public partial class GroupDetailsWindow : Window
         }
     }
 
+    private void BtnConfirm1_Click(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel.NewLine != null)
+        {
+            _viewModel.NewLine.ConfirmationLevel = 1;
+        }
+    }
+
+    private void BtnConfirm2_Click(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel.NewLine != null)
+        {
+            _viewModel.NewLine.ConfirmationLevel = 2;
+        }
+    }
+
+    private void BtnConfirm3_Click(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel.NewLine != null)
+        {
+            _viewModel.NewLine.ConfirmationLevel = 3;
+        }
+    }
+
+    private void BtnConfirmClear_Click(object sender, RoutedEventArgs e)
+    {
+        if (_viewModel.NewLine != null)
+        {
+            _viewModel.NewLine.ConfirmationLevel = 0;
+        }
+    }
+
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);

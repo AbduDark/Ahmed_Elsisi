@@ -25,6 +25,8 @@ Preferred communication style: Simple, everyday language.
 - Multi-provider support: 4 Egyptian telecom companies
 - Line states: Active, Suspended, Blocked, Without Cash Wallet, With Cash Wallet
 - Each group tracks: responsible employee, customer assignment, expected delivery date
+- Business Group type: Special group type with confirmation tracking (1-3 checkmarks per line)
+- Additional details field (optional, up to 1000 characters) for extra group information
 
 **Line Entity Structure**
 - Person name
@@ -33,6 +35,8 @@ Preferred communication style: Simple, everyday language.
 - Internal ID
 - Cash wallet flag (yes/no)
 - Wallet number (optional)
+- Details field (optional, up to 500 characters)
+- Confirmation level (0-3) for business groups
 
 **Automatic Renewal System**
 - 60-day renewal cycle for groups with cash wallets
@@ -105,6 +109,11 @@ LineManagementSystem/
 - ✅ Implemented delivery tracking with alerts
 - ✅ Added build validation workflow (compiles on Linux via EnableWindowsTargeting)
 - ✅ Documented Windows-only execution requirements
+- ✅ Added Details field for phone lines (up to 500 characters)
+- ✅ Added AdditionalDetails field for groups (up to 1000 characters)
+- ✅ Implemented Business Group feature with confirmation levels (0-3 checkmarks)
+- ✅ Added confirmation tracking UI with color-coded buttons
+- ✅ Fixed duplicate assembly attribute errors
 
 ## Build and Deployment
 

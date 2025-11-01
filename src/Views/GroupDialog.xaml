@@ -73,6 +73,21 @@
                           Content="تم التسليم بالفعل"
                           FontWeight="Bold"
                           Margin="0,0,0,15"/>
+
+                <CheckBox x:Name="chkIsBusinessGroup"
+                          Content="مجموعة بيزنس (Business Group)"
+                          FontWeight="Bold"
+                          Margin="0,0,0,15"/>
+
+                <TextBlock Text="تفاصيل إضافية (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBox x:Name="txtAdditionalDetails"
+                         Padding="10"
+                         FontSize="14"
+                         Height="80"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         VerticalScrollBarVisibility="Auto"
+                         Margin="0,0,0,15"/>
             </StackPanel>
         </ScrollViewer>
 
