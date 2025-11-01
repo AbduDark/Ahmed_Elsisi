@@ -45,16 +45,4 @@ public static class TelecomProviderExtensions
             _ => ""
         };
     }
-
-    public static string GetArabicName(this TelecomProvider provider)
-    {
-        return provider switch
-        {
-            TelecomProvider.Vodafone => "فودافون",
-            TelecomProvider.Etisalat => "اتصالات",
-            TelecomProvider.We => "وي",
-            TelecomProvider.Orange => "أورانج",
-            _ => "غير محدد"
-        };
-    }
 }

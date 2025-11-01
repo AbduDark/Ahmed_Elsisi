@@ -92,16 +92,12 @@ public class GroupService
     {
         try
         {
-            var line = _context.PhoneLines.Find(lineId);
-            if (line != null)
-            {
-                _context.PhoneLines.Remove(line);
-                _context.SaveChanges();
-            }
+            // استخدام ExecuteDelete عشان نحذف مباشرة من الداتابيز بدون tracking
+            _context.PhoneLines.Where(l => l.Id == lineId).ExecuteDelete();
         }
         catch (DbUpdateConcurrencyException)
         {
-            // السطر اتحذف فعلاً من مكان تاني، نعمل refresh للـ context
+            // السطر اتحذف فعلاً من مكان تاني
             _context.ChangeTracker.Clear();
         }
     }
