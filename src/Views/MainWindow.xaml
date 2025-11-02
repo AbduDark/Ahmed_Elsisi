@@ -75,17 +75,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- زر الدارك مود في الزاوية -->
-        <Button Grid.Row="0" 
-                Style="{StaticResource ThemeToggleButton}"
-                Content="🌙"
-                Click="ToggleTheme_Click"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="20,20,0,0"
-                Panel.ZIndex="1000"
-                ToolTip="تبديل الوضع الليلي/النهاري"/>
-
         <!-- Header Section -->
         <Border Grid.Row="0" 
                 Style="{StaticResource ModernCard}"

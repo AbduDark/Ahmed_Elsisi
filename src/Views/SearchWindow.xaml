@@ -25,16 +25,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="0" 
-                Style="{StaticResource ThemeToggleButton}"
-                Content="🌙"
-                Click="ToggleTheme_Click"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="0,-20,0,0"
-                Panel.ZIndex="1000"
-                ToolTip="تبديل الوضع الليلي/النهاري"/>
-
         <Border Grid.Row="0" Background="{DynamicResource CardBackground}" Padding="20" Margin="0,0,0,20" CornerRadius="10">
             <Border.Effect>
                 <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="10" ShadowDepth="3"/>

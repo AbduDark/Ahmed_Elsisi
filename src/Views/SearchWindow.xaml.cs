@@ -1,4 +1,3 @@
-
 using System.Windows;
 using LineManagementSystem.Models;
 using LineManagementSystem.Services;
@@ -85,8 +84,8 @@ public partial class SearchWindow : Window
         }
     }
 
-    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-        ThemeManager.ToggleTheme();
+        this.Close();
     }
 }

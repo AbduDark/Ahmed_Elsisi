@@ -49,8 +49,8 @@ public partial class ProviderGroupsWindow : Window
         }
     }
 
-    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    private void BackButton_Click(object sender, RoutedEventArgs e)
     {
-        ThemeManager.ToggleTheme();
+        this.Close();
     }
 }

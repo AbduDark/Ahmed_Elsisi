@@ -60,21 +60,10 @@ public partial class MainWindow : Window
         searchWindow.Show();
     }
 
-    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
-    {
-        ThemeManager.ToggleTheme();
-    }
-
     private void SettingsButton_Click(object sender, RoutedEventArgs e)
     {
-        var currentTheme = ThemeManager.IsDarkMode ? "وضع ليلي" : "وضع نهاري";
-        var message = $"⚙️ إعدادات التطبيق\n\n" +
-                      $"الوضع الحالي: {currentTheme}\n\n" +
-                      $"لتغيير الوضع الليلي/النهاري:\n" +
-                      $"اضغط على زر 🌙 في أي واجهة\n\n" +
-                      $"ستتم إضافة المزيد من الإعدادات قريباً!";
-        
-        MessageBox.Show(message, "الإعدادات", MessageBoxButton.OK, MessageBoxImage.Information);
+        var settingsWindow = new SettingsWindow();
+        settingsWindow.ShowDialog();
     }
 
     protected override void OnClosed(EventArgs e)

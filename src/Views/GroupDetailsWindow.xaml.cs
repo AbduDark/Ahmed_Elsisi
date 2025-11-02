@@ -20,7 +20,7 @@ public partial class GroupDetailsWindow : Window
         var context = new DatabaseContext();
         // نتأكد إن الـ context نظيف من أي tracking قديم
         context.ChangeTracker.Clear();
-        
+
         var groupService = new GroupService(context);
         _viewModel = new GroupDetailsViewModel(groupService, group);
         _parentViewModel = parentViewModel;
@@ -114,7 +114,7 @@ public partial class GroupDetailsWindow : Window
             if (_viewModel.AddLineCommand.CanExecute(null))
             {
                 _viewModel.AddLineCommand.Execute(null);
-                
+
                 // التركيز على خانة رقم الخط بعد فتح النموذج
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -125,9 +125,9 @@ public partial class GroupDetailsWindow : Window
         }
     }
 
-    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    private void BackButton_Click(object sender, RoutedEventArgs e)
     {
-        ThemeManager.ToggleTheme();
+        // Placeholder for back button functionality if needed
     }
 
     protected override void OnClosed(EventArgs e)
