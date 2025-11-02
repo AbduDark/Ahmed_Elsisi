@@ -46,6 +46,8 @@ public static class ThemeManager
             app.Resources["DataGridGridLines"] = new SolidColorBrush(Color.FromRgb(50, 50, 50));
             app.Resources["InputBackground"] = new SolidColorBrush(Color.FromRgb(40, 40, 40));
             app.Resources["InputBorder"] = new SolidColorBrush(Color.FromRgb(70, 70, 70));
+            app.Resources["MenuBackground"] = new SolidColorBrush(Color.FromRgb(35, 35, 35));
+            app.Resources["MenuItemHover"] = new SolidColorBrush(Color.FromRgb(55, 55, 55));
         }
         else
         {
@@ -69,6 +71,8 @@ public static class ThemeManager
             app.Resources["DataGridGridLines"] = new SolidColorBrush(Color.FromRgb(236, 239, 241));
             app.Resources["InputBackground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             app.Resources["InputBorder"] = new SolidColorBrush(Color.FromRgb(207, 216, 220));
+            app.Resources["MenuBackground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            app.Resources["MenuItemHover"] = new SolidColorBrush(Color.FromRgb(240, 240, 240));
         }
     }
 
