@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="برنامج احمد السيسي لادارة الموبايل" 
-        Height="700" Width="1200"
+        Height="800" Width="1400"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         FlowDirection="RightToLeft"
         Background="#F5F5F5">
 
     <Window.Resources>
         <Style x:Key="ProviderButton" TargetType="Button">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="200"/>
-            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="250"/>
+            <Setter Property="Margin" Value="30"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
@@ -175,37 +176,41 @@
                 <WrapPanel HorizontalAlignment="Center">
                     <Button Style="{StaticResource ProviderButton}" 
                             Background="White"
-                            Click="VodafoneButton_Click">
+                            Click="VodafoneButton_Click"
+                            ToolTip="فودافون - اضغط للإدارة">
                         <Image Source="/Resources/Images/vodafone.png" 
-                               Width="180" 
-                               Height="180"
+                               Width="220" 
+                               Height="220"
                                Stretch="Uniform"/>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
                             Background="White"
-                            Click="EtisalatButton_Click">
+                            Click="EtisalatButton_Click"
+                            ToolTip="اتصالات - اضغط للإدارة">
                         <Image Source="/Resources/Images/etisalat.png" 
-                               Width="180" 
-                               Height="180"
+                               Width="220" 
+                               Height="220"
                                Stretch="Uniform"/>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
                             Background="White"
-                            Click="WeButton_Click">
+                            Click="WeButton_Click"
+                            ToolTip="وي - اضغط للإدارة">
                         <Image Source="/Resources/Images/we.png" 
-                               Width="180" 
-                               Height="180"
+                               Width="220" 
+                               Height="220"
                                Stretch="Uniform"/>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
                             Background="White"
-                            Click="OrangeButton_Click">
+                            Click="OrangeButton_Click"
+                            ToolTip="اورنج - اضغط للإدارة">
                         <Image Source="/Resources/Images/orange.png" 
-                               Width="180" 
-                               Height="180"
+                               Width="220" 
+                               Height="220"
                                Stretch="Uniform"/>
                     </Button>
                 </WrapPanel>

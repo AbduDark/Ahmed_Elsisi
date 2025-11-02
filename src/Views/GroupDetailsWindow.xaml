@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:LineManagementSystem.Converters"
         mc:Ignorable="d"
         Title="{Binding Group.Name, StringFormat='تفاصيل المجموعة: {0}'}"
-        Height="700" Width="1200"
+        Height="900" Width="1600"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         FlowDirection="RightToLeft"
         KeyDown="Window_KeyDown">
 

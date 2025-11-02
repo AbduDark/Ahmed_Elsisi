@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:LineManagementSystem.Converters"
         mc:Ignorable="d"
         Title="{Binding Provider, StringFormat='مجموعات {0}'}"
-        Height="600" Width="1000"
+        Height="850" Width="1500"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         FlowDirection="RightToLeft">
 
     <Window.Resources>
@@ -181,15 +182,17 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="اسم المجموعة" Binding="{Binding Name}" Width="*" FontSize="14">
+                    <DataGridTextColumn Header="اسم المجموعة" Binding="{Binding Name}" Width="200" FontSize="14">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
-                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Padding" Value="10,0"/>
+                                <Setter Property="TextWrapping" Value="Wrap"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="الحالة" Binding="{Binding Status}" Width="100" FontSize="13">
+                    <DataGridTextColumn Header="الحالة" Binding="{Binding Status}" Width="130" FontSize="13">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -197,17 +200,17 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="عدد الخطوط" Binding="{Binding GetLineCount}" Width="90" FontSize="14">
+                    <DataGridTextColumn Header="عدد الخطوط" Binding="{Binding GetLineCount}" Width="110" FontSize="13">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="Foreground" Value="#1976D2"/>
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="#1976D2"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTemplateColumn Header="محفظة كاش" Width="100">
+                    <DataGridTemplateColumn Header="محفظة كاش" Width="110">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Border Background="#E8F5E9" CornerRadius="12" Padding="8,4" HorizontalAlignment="Center">
