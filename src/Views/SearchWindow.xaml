@@ -113,7 +113,7 @@
                       BorderThickness="0"
                       GridLinesVisibility="Horizontal"
                       HorizontalGridLinesBrush="{DynamicResource DataGridGridLines}"
-                      RowHeight="45"
+                      RowHeight="60"
                       HeadersVisibility="Column"
                       CanUserResizeRows="False"
                       IsReadOnly="True"
@@ -182,6 +182,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontSize" Value="14"/>
                                 <Setter Property="Foreground" Value="#E91E63"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
@@ -191,7 +192,8 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                 <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="FontSize" Value="15"/>
+                                <Setter Property="Foreground" Value="#2196F3"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -200,6 +202,7 @@
                             <DataTemplate>
                                 <TextBlock Text="{Binding PhoneNumber}" 
                                            FontWeight="Bold"
+                                           FontSize="14"
                                            VerticalAlignment="Center"
                                            Foreground="{Binding ProviderColor}"/>
                             </DataTemplate>
@@ -209,7 +212,8 @@
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="Foreground" Value="#546E7A"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Foreground" Value="#2196F3"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -217,7 +221,8 @@
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="Foreground" Value="#757575"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Foreground" Value="#2196F3"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -226,6 +231,7 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="FontSize" Value="14"/>
                                 <Setter Property="Foreground" Value="#43A047"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
@@ -235,6 +241,7 @@
                             <DataTemplate>
                                 <TextBlock Text="{Binding Provider}" 
                                            FontWeight="Bold"
+                                           FontSize="14"
                                            VerticalAlignment="Center"
                                            Foreground="{Binding ProviderColor}"/>
                             </DataTemplate>
@@ -244,6 +251,7 @@
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="FontSize" Value="14"/>
                                 <Setter Property="Foreground" Value="#00897B"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
@@ -253,8 +261,8 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="TextWrapping" Value="Wrap"/>
-                                <Setter Property="Foreground" Value="#616161"/>
-                                <Setter Property="FontSize" Value="12"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+                                <Setter Property="FontSize" Value="13"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>

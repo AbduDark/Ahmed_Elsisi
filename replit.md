@@ -101,6 +101,15 @@ LineManagementSystem/
 ## Recent Changes
 
 ### November 2, 2025 (Late Night Update - Latest)
+- ✅ **Enhanced Search Window**:
+  - Increased row height from 45px to 60px for better readability
+  - Larger font sizes (14-15px) across all columns
+  - Custom column colors:
+    - Person Name: Blue (#2196F3)
+    - National ID: Blue (#2196F3)
+    - Internal ID: Blue (#2196F3)
+    - Details: Theme-aware (uses DynamicResource TextPrimary)
+  - Improved visual hierarchy with consistent typography
 - ✅ **Enhanced Group Dialog with Dark Mode Support**:
   - Added theme toggle button (🌙) to GroupDialog with DynamicResource bindings
   - Increased dialog size to 650x700 for better usability
