@@ -46,13 +46,21 @@
         <Border Grid.Row="0" 
                 Background="{Binding Provider, Converter={StaticResource ProviderToColorConverter}}"
                 Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="10" ShadowDepth="3"/>
+            </Border.Effect>
             <DockPanel>
-                <Image DockPanel.Dock="Left" 
-                       Source="{Binding Provider, Converter={StaticResource ProviderToLogoConverter}}" 
-                       Width="80" 
-                       Height="80"
-                       Margin="0,0,20,0"
-                       VerticalAlignment="Center"/>
+                <Border DockPanel.Dock="Left" 
+                        Background="White"
+                        CornerRadius="10"
+                        Padding="10"
+                        Width="100"
+                        Height="100"
+                        Margin="0,0,20,0"
+                        VerticalAlignment="Center">
+                    <Image Source="{Binding Provider, Converter={StaticResource ProviderToLogoConverter}}" 
+                           Stretch="Uniform"/>
+                </Border>
                 <TextBlock Text="{Binding Provider, StringFormat='إدارة مجموعات {0}'}"
                            FontSize="32"
                            FontWeight="Bold"
@@ -109,7 +117,8 @@
                                 <Image Source="{Binding Provider, Converter={StaticResource ProviderToLogoConverter}}" 
                                        Width="50" Height="50" 
                                        Margin="5"
-                                       Stretch="Uniform"/>
+                                       Stretch="Uniform"
+                                       ToolTip="{Binding Provider}"/>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

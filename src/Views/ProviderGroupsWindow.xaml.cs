@@ -20,11 +20,6 @@ public partial class ProviderGroupsWindow : Window
         _viewModel.OpenGroupDialog += OnOpenGroupDialog;
 
         DataContext = _viewModel;
-
-        var color = provider.GetColorHex();
-        Background = new System.Windows.Media.SolidColorBrush(
-            (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(color + "20")
-        );
     }
 
     private void OnNavigateToGroupDetails(LineGroup group)
