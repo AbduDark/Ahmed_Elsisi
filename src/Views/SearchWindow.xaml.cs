@@ -2,6 +2,7 @@ using System.Windows;
 using LineManagementSystem.Models;
 using LineManagementSystem.Services;
 using LineManagementSystem.ViewModels;
+using Microsoft.Win32;
 
 namespace LineManagementSystem.Views;
 
@@ -10,15 +11,18 @@ public partial class SearchWindow : Window
     private readonly SearchViewModel _viewModel;
     private readonly GroupService _groupService;
     private readonly AlertService _alertService;
+    private readonly ExportService _exportService;
+    private readonly DatabaseContext _context;
 
     public SearchWindow(GroupService groupService, AlertService alertService)
     {
         InitializeComponent();
 
-        var context = new DatabaseContext();
-        _viewModel = new SearchViewModel(groupService, context);
+        _context = new DatabaseContext();
+        _viewModel = new SearchViewModel(groupService, _context);
         _groupService = groupService;
         _alertService = alertService;
+        _exportService = new ExportService(_context);
 
         _viewModel.NavigateToGroupDetails += OnNavigateToGroupDetails;
         _viewModel.EditLine += OnEditLine;
@@ -87,5 +91,62 @@ public partial class SearchWindow : Window
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
         this.Close();
+    }
+
+    private void ExportExcel_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "Excel Files|*.xlsx",
+                FileName = $"نتائج_البحث_{DateTime.Now:yyyy-MM-dd}.xlsx"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                var lines = _viewModel.SearchResults
+                    .Where(r => r.Type == "خط")
+                    .Select(r => _context.PhoneLines.FirstOrDefault(l => l.PhoneNumber == r.PhoneNumber))
+                    .Where(l => l != null)
+                    .ToList();
+
+                if (lines.Any())
+                {
+                    _exportService.ExportLinesToExcel(saveDialog.FileName, lines);
+                    MessageBox.Show("تم التصدير بنجاح!", "نجح", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("لا توجد خطوط للتصدير", "تنبيه", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ExportPDF_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files|*.pdf",
+                FileName = $"تقرير_{DateTime.Now:yyyy-MM-dd}.pdf"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                _exportService.ExportToPdf(saveDialog.FileName);
+                MessageBox.Show("تم التصدير بنجاح!", "نجح", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 }

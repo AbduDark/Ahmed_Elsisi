@@ -77,7 +77,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="5" ShadowDepth="2"/>
             </Border.Effect>
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal">
                 <Button Content="+ إضافة مجموعة جديدة"
                         Style="{StaticResource ActionButton}"
                         Background="#4CAF50"
@@ -98,7 +98,15 @@
                         Style="{StaticResource ActionButton}"
                         Background="#9C27B0"
                         Command="{Binding ViewGroupDetailsCommand}"/>
-            </StackPanel>
+                <Button Content="📄 تصدير Excel"
+                        Style="{StaticResource ActionButton}"
+                        Background="#43A047"
+                        Click="ExportExcel_Click"/>
+                <Button Content="📑 تصدير PDF"
+                        Style="{StaticResource ActionButton}"
+                        Background="#E91E63"
+                        Click="ExportPDF_Click"/>
+            </WrapPanel>
         </Border>
 
         <Border Grid.Row="2" 

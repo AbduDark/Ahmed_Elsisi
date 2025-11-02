@@ -73,7 +73,7 @@
             <Border.Effect>
                 <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="5" ShadowDepth="2"/>
             </Border.Effect>
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal">
                 <Button Content="+ إضافة خط جديد"
                         Style="{StaticResource ActionButton}"
                         Background="#43A047"
@@ -106,7 +106,23 @@
                         <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
                     </Button.Effect>
                 </Button>
-            </StackPanel>
+                <Button Content="📄 تصدير Excel"
+                        Style="{StaticResource ActionButton}"
+                        Background="#43A047"
+                        Click="ExportExcel_Click">
+                    <Button.Effect>
+                        <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
+                    </Button.Effect>
+                </Button>
+                <Button Content="📑 تصدير PDF"
+                        Style="{StaticResource ActionButton}"
+                        Background="#E91E63"
+                        Click="ExportPDF_Click">
+                    <Button.Effect>
+                        <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
+                    </Button.Effect>
+                </Button>
+            </WrapPanel>
         </Border>
 
         <Border Grid.Row="2" 

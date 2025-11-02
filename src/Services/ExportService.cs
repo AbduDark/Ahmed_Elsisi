@@ -25,7 +25,7 @@ public class ExportService
         {
             TelecomProvider.Vodafone => XLColor.FromHtml("#E60000"),
             TelecomProvider.Etisalat => XLColor.FromHtml("#7FBA00"),
-            TelecomProvider.WE => XLColor.FromHtml("#6A1B9A"),
+            TelecomProvider.We => XLColor.FromHtml("#6A1B9A"),
             TelecomProvider.Orange => XLColor.FromHtml("#FF7900"),
             _ => XLColor.White
         };
@@ -37,7 +37,7 @@ public class ExportService
         {
             TelecomProvider.Vodafone => "#E60000",
             TelecomProvider.Etisalat => "#7FBA00",
-            TelecomProvider.WE => "#6A1B9A",
+            TelecomProvider.We => "#6A1B9A",
             TelecomProvider.Orange => "#FF7900",
             _ => "#000000"
         };
@@ -83,7 +83,7 @@ public class ExportService
             worksheet.Cell(row, 1).Style.Font.FontColor = XLColor.White;
             worksheet.Cell(row, 1).Style.Font.Bold = true;
 
-            worksheet.Cell(row, 2).Value = line.PersonName;
+            worksheet.Cell(row, 2).Value = line.Name;
             worksheet.Cell(row, 3).Value = line.NationalId;
             worksheet.Cell(row, 4).Value = line.InternalId;
             worksheet.Cell(row, 5).Value = line.HasCashWallet ? "نعم" : "لا";
@@ -163,9 +163,9 @@ public class ExportService
 
             worksheet.Cell(row, 3).Value = group.Status.ToString();
             worksheet.Cell(row, 4).Value = lineCount;
-            worksheet.Cell(row, 5).Value = group.ResponsibleEmployee ?? "";
-            worksheet.Cell(row, 6).Value = group.Customer ?? "";
-            worksheet.Cell(row, 7).Value = group.ExpectedDeliveryDate?.ToString("yyyy-MM-dd") ?? "";
+            worksheet.Cell(row, 5).Value = group.AssignedToEmployee ?? "";
+            worksheet.Cell(row, 6).Value = group.AssignedCustomer ?? "";
+            worksheet.Cell(row, 7).Value = group.ExpectedHandoverDate?.ToString("yyyy-MM-dd") ?? "";
             worksheet.Cell(row, 8).Value = group.AdditionalDetails ?? "";
 
             for (int col = 1; col <= 8; col++)
@@ -243,8 +243,8 @@ public class ExportService
 
             worksheet.Cell(row, 3).Value = group.Status.ToString();
             worksheet.Cell(row, 4).Value = lineCount;
-            worksheet.Cell(row, 5).Value = group.ResponsibleEmployee ?? "";
-            worksheet.Cell(row, 6).Value = group.Customer ?? "";
+            worksheet.Cell(row, 5).Value = group.AssignedToEmployee ?? "";
+            worksheet.Cell(row, 6).Value = group.AssignedCustomer ?? "";
 
             row++;
         }
@@ -279,7 +279,7 @@ public class ExportService
             worksheet.Cell(row, 1).Style.Font.FontColor = XLColor.White;
             worksheet.Cell(row, 1).Style.Font.Bold = true;
 
-            worksheet.Cell(row, 2).Value = line.PersonName;
+            worksheet.Cell(row, 2).Value = line.Name;
             worksheet.Cell(row, 3).Value = line.NationalId;
             
             worksheet.Cell(row, 4).Value = group?.Provider.ToString() ?? "";
@@ -323,7 +323,7 @@ public class ExportService
         worksheet.Row(7).Style.Font.Bold = true;
 
         int row = 8;
-        foreach (var provider in new[] { TelecomProvider.Vodafone, TelecomProvider.Etisalat, TelecomProvider.WE, TelecomProvider.Orange })
+        foreach (var provider in new[] { TelecomProvider.Vodafone, TelecomProvider.Etisalat, TelecomProvider.We, TelecomProvider.Orange })
         {
             var providerColor = GetProviderColor(provider);
             var groupCount = _db.LineGroups.Count(g => g.Provider == provider);
@@ -373,7 +373,7 @@ public class ExportService
                         column.Item().Text("إحصائيات حسب المزود").Bold().FontSize(14);
                         column.Item().PaddingVertical(5);
 
-                        foreach (var provider in new[] { TelecomProvider.Vodafone, TelecomProvider.Etisalat, TelecomProvider.WE, TelecomProvider.Orange })
+                        foreach (var provider in new[] { TelecomProvider.Vodafone, TelecomProvider.Etisalat, TelecomProvider.We, TelecomProvider.Orange })
                         {
                             var groupCount = _db.LineGroups.Count(g => g.Provider == provider);
                             var lineCount = _db.PhoneLines.Count(l => _db.LineGroups.Any(g => g.Id == l.GroupId && g.Provider == provider));

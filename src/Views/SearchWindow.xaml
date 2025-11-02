@@ -93,6 +93,29 @@
                           FontSize="14"
                           Foreground="#666"
                           Margin="0,10,0,0"/>
+
+                <WrapPanel Orientation="Horizontal" Margin="0,10,0,0">
+                    <Button Content="📄 تصدير Excel"
+                            Click="ExportExcel_Click"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Padding="15,8"
+                            Margin="5,0,0,0"
+                            Background="#43A047"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"/>
+                    <Button Content="📑 تصدير PDF"
+                            Click="ExportPDF_Click"
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Padding="15,8"
+                            Margin="5,0,0,0"
+                            Background="#E91E63"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Cursor="Hand"/>
+                </WrapPanel>
             </StackPanel>
         </Border>
 

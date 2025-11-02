@@ -12,6 +12,7 @@ namespace LineManagementSystem.Views;
 public partial class SettingsWindow : Window
 {
     private readonly BackupService _backupService;
+    private readonly ExportService _exportService;
 
     public bool IsDarkMode
     {
@@ -28,6 +29,8 @@ public partial class SettingsWindow : Window
         InitializeComponent();
         DataContext = this;
         _backupService = new BackupService();
+        var context = new DatabaseContext();
+        _exportService = new ExportService(context);
         UpdateThemeText();
         UpdateBackupStatus();
         
@@ -214,22 +217,58 @@ public partial class SettingsWindow : Window
 
     private async void ExportExcel_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show(
-            "قريباً: تصدير تقرير شامل بصيغة Excel\n\nالتقرير سيتضمن:\n• جميع المجموعات والخطوط\n• التنبيهات النشطة\n• إحصائيات الشركات\n• تفاصيل التجديد والتسليم",
-            "ميزة قادمة",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "Excel Files|*.xlsx",
+                FileName = $"تقرير_شامل_{DateTime.Now:yyyy-MM-dd}.xlsx"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                _exportService.ExportFullReportToExcel(saveDialog.FileName);
+                MessageBox.Show(
+                    "تم التصدير بنجاح!\n\nالتقرير يتضمن:\n• جميع المجموعات\n• جميع الخطوط مع ألوان حسب الشبكة\n• إحصائيات شاملة",
+                    "نجح",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير:\n{ex.Message}", 
+                "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
         
         await System.Threading.Tasks.Task.CompletedTask;
     }
 
     private async void ExportPDF_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show(
-            "قريباً: تصدير تقرير بصيغة PDF\n\nالتقرير سيتضمن:\n• ملخص شامل للبيانات\n• رسوم بيانية وإحصائيات\n• قوائم مفصلة بتنسيق احترافي",
-            "ميزة قادمة",
-            MessageBoxButton.OK,
-            MessageBoxImage.Information);
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files|*.pdf",
+                FileName = $"تقرير_{DateTime.Now:yyyy-MM-dd}.pdf"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                _exportService.ExportToPdf(saveDialog.FileName);
+                MessageBox.Show(
+                    "تم التصدير بنجاح!\n\nالتقرير يتضمن:\n• ملخص شامل للبيانات\n• إحصائيات حسب المزود",
+                    "نجح",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير:\n{ex.Message}", 
+                "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
         
         await System.Threading.Tasks.Task.CompletedTask;
     }

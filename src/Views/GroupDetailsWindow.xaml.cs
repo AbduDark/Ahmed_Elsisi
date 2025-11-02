@@ -4,6 +4,7 @@ using System.Windows.Input;
 using LineManagementSystem.Models;
 using LineManagementSystem.Services;
 using LineManagementSystem.ViewModels;
+using Microsoft.Win32;
 
 namespace LineManagementSystem.Views;
 
@@ -12,19 +13,22 @@ public partial class GroupDetailsWindow : Window
     private readonly GroupDetailsViewModel _viewModel;
     private readonly ProviderGroupsViewModel _parentViewModel;
     private readonly AlertService _alertService;
+    private readonly ExportService _exportService;
+    private readonly DatabaseContext _context;
 
     public GroupDetailsWindow(LineGroup group, ProviderGroupsViewModel parentViewModel, AlertService alertService)
     {
         InitializeComponent();
 
-        var context = new DatabaseContext();
+        _context = new DatabaseContext();
         // نتأكد إن الـ context نظيف من أي tracking قديم
-        context.ChangeTracker.Clear();
+        _context.ChangeTracker.Clear();
 
-        var groupService = new GroupService(context);
+        var groupService = new GroupService(_context);
         _viewModel = new GroupDetailsViewModel(groupService, group);
         _parentViewModel = parentViewModel;
         _alertService = alertService;
+        _exportService = new ExportService(_context);
 
         _viewModel.LineAdded += () =>
         {
@@ -144,6 +148,51 @@ public partial class GroupDetailsWindow : Window
             {
                 _viewModel.EditLineCommand.Execute(null);
             }
+        }
+    }
+
+    private void ExportExcel_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "Excel Files|*.xlsx",
+                FileName = $"خطوط_{_viewModel.Group.Name}_{DateTime.Now:yyyy-MM-dd}.xlsx"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                var lines = _viewModel.Lines.ToList();
+                _exportService.ExportLinesToExcel(saveDialog.FileName, lines);
+                MessageBox.Show("تم التصدير بنجاح!", "نجح", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ExportPDF_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var saveDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files|*.pdf",
+                FileName = $"تقرير_{DateTime.Now:yyyy-MM-dd}.pdf"
+            };
+
+            if (saveDialog.ShowDialog() == true)
+            {
+                _exportService.ExportToPdf(saveDialog.FileName);
+                MessageBox.Show("تم التصدير بنجاح!", "نجح", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء التصدير: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
