@@ -196,7 +196,7 @@
                                 <TextBlock Text="{Binding PhoneNumber}" 
                                            FontWeight="Bold"
                                            VerticalAlignment="Center"
-                                           Foreground="{Binding Line, Converter={StaticResource PhoneLineToColorConverter}}"/>
+                                           Foreground="{Binding ProviderColor}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -225,15 +225,16 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="المزود" Binding="{Binding Provider}" Width="100">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                                <Setter Property="Foreground" Value="#FF6F00"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Header="المزود" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Provider}" 
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding ProviderColor}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="محفظة كاش" Binding="{Binding CashWalletNumber}" Width="120">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock">

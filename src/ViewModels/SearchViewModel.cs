@@ -191,6 +191,7 @@ public class SearchViewModel : BaseViewModel
                 InternalId = line.InternalId,
                 GroupName = line.Group?.Name ?? "غير محدد",
                 Provider = line.Group?.Provider.GetArabicName() ?? "غير محدد",
+                ProviderColor = line.Group?.Provider.GetColorHex() ?? "#000000",
                 CashWalletNumber = line.CashWalletNumber,
                 HasCashWallet = line.HasCashWallet,
                 Details = line.Details
@@ -213,6 +214,7 @@ public class SearchViewModel : BaseViewModel
                     Type = "مجموعة",
                     GroupName = group.Name,
                     Provider = group.Provider.GetArabicName(),
+                    ProviderColor = group.Provider.GetColorHex(),
                     LineCount = group.GetLineCount,
                     Details = $"عدد الخطوط: {group.GetLineCount} من {group.MaxLines}"
                 });
@@ -229,6 +231,7 @@ public class SearchViewModel : BaseViewModel
                         InternalId = line.InternalId,
                         GroupName = group.Name,
                         Provider = group.Provider.GetArabicName(),
+                        ProviderColor = group.Provider.GetColorHex(),
                         CashWalletNumber = line.CashWalletNumber,
                         HasCashWallet = line.HasCashWallet,
                         Details = line.Details
@@ -248,6 +251,7 @@ public class SearchResult
     public string InternalId { get; set; } = string.Empty;
     public string GroupName { get; set; } = string.Empty;
     public string Provider { get; set; } = string.Empty;
+    public string ProviderColor { get; set; } = string.Empty;
     public string? CashWalletNumber { get; set; }
     public bool HasCashWallet { get; set; }
     public string? Details { get; set; }
