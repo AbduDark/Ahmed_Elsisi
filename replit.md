@@ -109,6 +109,10 @@ LineManagementSystem/
 - ✅ Improved row height and spacing for better readability
 - ✅ Fixed resource pack URIs to ensure icons load correctly in all windows
 - ✅ Added proper Link elements in csproj to maintain correct resource logical names
+- ✅ **Fixed WPF Binding errors**: Converted all computed methods to properties for proper data binding
+  - LineGroup: GetLineCount, GetRemainingDaysForRenewal, CanAddMoreLines, etc.
+  - Alert: GetArabicMessage, GetColorBrush, GetColorHex
+- ✅ Updated all service and ViewModel code to use properties instead of methods
 
 ### November 1, 2025
 - ✅ Implemented complete WPF application with MVVM pattern
