@@ -100,7 +100,16 @@ LineManagementSystem/
 
 ## Recent Changes
 
-### November 2, 2025
+### November 2, 2025 (Evening Update)
+- ✅ **Fixed Entity Framework tracking bug**: Added ChangeTracker.Clear() in UpdateLine to prevent duplicate entity tracking errors
+- ✅ **Improved Enter key behavior for QR scanner workflow**:
+  - Name field → Enter → National ID field
+  - National ID field → Enter → Phone Number field
+  - Phone Number field → Enter → Internal ID field
+  - Internal ID field → Enter → **Auto-save line** (perfect for rapid data entry)
+  - Cash Wallet Number field → Enter → Back to Name field (for next line)
+
+### November 2, 2025 (Earlier)
 - ✅ Added automatic post-build copy of images to output directory (solves icon visibility issue when running exe)
 - ✅ Improved alert display with warning icons (⚠) instead of checkmarks
 - ✅ Enhanced alert UI with proper hide button and better visibility
