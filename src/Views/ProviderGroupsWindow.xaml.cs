@@ -48,4 +48,9 @@ public partial class ProviderGroupsWindow : Window
             }
         }
     }
+
+    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    {
+        ThemeManager.ToggleTheme();
+    }
 }

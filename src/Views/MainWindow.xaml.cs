@@ -60,6 +60,11 @@ public partial class MainWindow : Window
         searchWindow.Show();
     }
 
+    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    {
+        ThemeManager.ToggleTheme();
+    }
+
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);

@@ -100,7 +100,27 @@ LineManagementSystem/
 
 ## Recent Changes
 
-### November 2, 2025 (Evening Update - Latest)
+### November 2, 2025 (Night Update - Latest)
+- ✅ **Added Dark Mode Support**:
+  - Created ThemeManager service for dynamic theme switching
+  - Added theme toggle button (🌙) in all main windows
+  - Light Mode: Clean white backgrounds with subtle shadows
+  - Dark Mode: Modern dark backgrounds (#121212) with improved contrast
+  - Dynamic color resources that update across all windows instantly
+- ✅ **Modernized UI Design**:
+  - Increased corner radius for more modern look (8-24px)
+  - Enhanced shadow effects for better depth perception
+  - Improved typography with better font sizes and weights
+  - Better spacing and padding throughout the application
+  - Provider cards now show provider names with brand colors
+  - Modern card-based design with subtle borders
+- ✅ **Added "تحديد الكل بمحفظة" Button**:
+  - New button in GroupDetailsWindow to set all lines to have cash wallet
+  - Confirmation dialog before applying changes
+  - Success message after completion
+  - Located in the action buttons toolbar with orange color (#FF9800)
+
+### November 2, 2025 (Evening Update)
 - ✅ **Enhanced details display in tables**: 
   - Added "التفاصيل الإضافية" column (250px width) in Groups table to show AdditionalDetails field
   - Expanded "التفاصيل" column (250px width) in Lines table for better visibility

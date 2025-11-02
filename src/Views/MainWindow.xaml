@@ -9,23 +9,24 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         FlowDirection="RightToLeft"
-        Background="#F5F5F5">
+        Background="{DynamicResource WindowBackground}">
 
     <Window.Resources>
         <Style x:Key="ProviderButton" TargetType="Button">
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Height" Value="250"/>
-            <Setter Property="Margin" Value="30"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Height" Value="280"/>
+            <Setter Property="Margin" Value="25"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="20"
-                                BorderThickness="0">
+                        <Border Background="{DynamicResource CardBackground}"
+                                CornerRadius="24"
+                                BorderThickness="2"
+                                BorderBrush="{DynamicResource BorderColor}">
                             <Border.Effect>
-                                <DropShadowEffect Color="Black" Opacity="0.2" BlurRadius="10" ShadowDepth="3"/>
+                                <DropShadowEffect Color="Black" Opacity="0.15" BlurRadius="20" ShadowDepth="5"/>
                             </Border.Effect>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
@@ -33,7 +34,7 @@
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Effect">
                                     <Setter.Value>
-                                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="15" ShadowDepth="5"/>
+                                        <DropShadowEffect Color="Black" Opacity="0.25" BlurRadius="30" ShadowDepth="8"/>
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
@@ -44,12 +45,25 @@
         </Style>
 
         <Style x:Key="AlertCard" TargetType="Border">
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="15"/>
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="8,5"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="5" ShadowDepth="2"/>
+                    <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="8" ShadowDepth="3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernCard" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Padding" Value="25"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Black" Opacity="0.08" BlurRadius="15" ShadowDepth="3"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -61,50 +75,105 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="White" Padding="20" Margin="0,0,0,10">
-            <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="5" ShadowDepth="2"/>
-            </Border.Effect>
+        <!-- زر الدارك مود في الزاوية -->
+        <Button Grid.Row="0" 
+                Style="{StaticResource ThemeToggleButton}"
+                Content="🌙"
+                Click="ToggleTheme_Click"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="20,20,0,0"
+                Panel.ZIndex="1000"
+                ToolTip="تبديل الوضع الليلي/النهاري"/>
+
+        <!-- Header Section -->
+        <Border Grid.Row="0" 
+                Style="{StaticResource ModernCard}"
+                Margin="10,10,10,15">
             <StackPanel>
-                <DockPanel>
+                <DockPanel Margin="0,0,0,20">
                     <Button Content="🔍 بحث شامل" 
                             DockPanel.Dock="Left"
                             Click="SearchButton_Click"
-                            Padding="20,10"
+                            Padding="25,15"
                             Margin="0,0,20,0"
                             Background="#2196F3"
                             Foreground="White"
-                            FontSize="16"
+                            FontSize="18"
                             FontWeight="Bold"
                             BorderThickness="0"
-                            Cursor="Hand" Height="93">
-                        <Button.Effect>
-                            <DropShadowEffect Color="Black" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
-                        </Button.Effect>
+                            Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        CornerRadius="12"
+                                        Padding="{TemplateBinding Padding}">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" Opacity="0.2" BlurRadius="10" ShadowDepth="3"/>
+                                    </Border.Effect>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.9"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
-                    <TextBlock Text="نظام إدارة خطوط الهاتف المحمول" 
-                              FontSize="28" 
-                              FontWeight="Bold"
-                              Foreground="#333"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
+                    
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="نظام إدارة خطوط الهاتف المحمول" 
+                                  FontSize="32" 
+                                  FontWeight="Bold"
+                                  Foreground="{DynamicResource TextPrimary}"
+                                  HorizontalAlignment="Center"
+                                  Margin="0,0,0,8"/>
+                        <TextBlock Text="احمد السيسي" 
+                                  FontSize="16" 
+                                  FontWeight="SemiBold"
+                                  Foreground="{DynamicResource TextSecondary}"
+                                  HorizontalAlignment="Center"/>
+                    </StackPanel>
                 </DockPanel>
 
-                <StackPanel Margin="0,20,0,0" x:Name="AlertsPanel">
-                    <DockPanel>
-                        <TextBlock Text="التنبيهات" FontSize="20" FontWeight="Bold" Foreground="#E60000"/>
+                <!-- Alerts Section -->
+                <StackPanel Margin="0,10,0,0" x:Name="AlertsPanel">
+                    <DockPanel Margin="0,0,0,15">
+                        <TextBlock Text="🔔 التنبيهات" 
+                                  FontSize="22" 
+                                  FontWeight="Bold" 
+                                  Foreground="#E60000"
+                                  VerticalAlignment="Center"/>
                         <Button Content="مسح الكل" 
                                 DockPanel.Dock="Left"
                                 Command="{Binding ClearAlertsCommand}"
-                                Padding="10,5"
+                                Padding="15,8"
                                 Margin="10,0,0,0"
                                 Background="#F44336"
                                 Foreground="White"
+                                FontSize="14"
+                                FontWeight="SemiBold"
                                 BorderThickness="0"
-                                Cursor="Hand"/>
+                                Cursor="Hand">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            CornerRadius="8"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Opacity" Value="0.9"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
                     </DockPanel>
 
-                    <ScrollViewer MaxHeight="200" Margin="0,10,0,0" VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer MaxHeight="220" VerticalScrollBarVisibility="Auto">
                         <ItemsControl x:Name="AlertsList" ItemsSource="{Binding Alerts}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -112,47 +181,60 @@
                                         <DockPanel>
                                             <Border DockPanel.Dock="Right" 
                                                     Background="White" 
-                                                    CornerRadius="20" 
-                                                    Width="40" 
-                                                    Height="40" 
-                                                    Margin="0,0,15,0"
+                                                    CornerRadius="25" 
+                                                    Width="45" 
+                                                    Height="45" 
+                                                    Margin="0,0,20,0"
                                                     VerticalAlignment="Center">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="Black" Opacity="0.15" BlurRadius="5" ShadowDepth="2"/>
+                                                </Border.Effect>
                                                 <TextBlock Text="⚠" 
-                                                          FontSize="24" 
+                                                          FontSize="26" 
                                                           HorizontalAlignment="Center" 
                                                           VerticalAlignment="Center"
                                                           Foreground="#FF6B00"/>
                                             </Border>
+                                            
                                             <Button Content="✓ إخفاء" 
                                                     DockPanel.Dock="Left"
                                                     Command="{Binding DataContext.MarkAlertReadCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                                                     CommandParameter="{Binding Id}"
-                                                    Padding="10,5"
+                                                    Padding="15,8"
                                                     Background="White"
-                                                    Foreground="Green"
+                                                    Foreground="#4CAF50"
                                                     BorderThickness="0"
                                                     FontWeight="Bold"
-                                                    FontSize="12"
+                                                    FontSize="14"
                                                     Cursor="Hand"
-                                                    Margin="10,0,0,0"
+                                                    Margin="15,0,0,0"
                                                     VerticalAlignment="Center">
                                                 <Button.Template>
                                                     <ControlTemplate TargetType="Button">
                                                         <Border Background="{TemplateBinding Background}" 
-                                                                CornerRadius="5" 
+                                                                CornerRadius="8" 
                                                                 Padding="{TemplateBinding Padding}">
+                                                            <Border.Effect>
+                                                                <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="5" ShadowDepth="2"/>
+                                                            </Border.Effect>
                                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Opacity" Value="0.85"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
                                                     </ControlTemplate>
                                                 </Button.Template>
                                             </Button>
+                                            
                                             <TextBlock Text="{Binding GetArabicMessage}" 
-                                                      FontSize="15"
+                                                      FontSize="16"
                                                       FontWeight="SemiBold"
                                                       Foreground="White"
                                                       TextWrapping="Wrap"
                                                       VerticalAlignment="Center"
-                                                      Margin="0,0,15,0"/>
+                                                      Margin="0,0,20,0"/>
                                         </DockPanel>
                                     </Border>
                                 </DataTemplate>
@@ -163,55 +245,83 @@
             </StackPanel>
         </Border>
 
-        <Grid Grid.Row="1" >
-
-            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,117,0,0" >
-                <TextBlock Text="اختر الشركة يامصر" 
-                          FontSize="24" 
+        <!-- Providers Section -->
+        <Grid Grid.Row="1">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="اختر الشركة" 
+                          FontSize="28" 
                           FontWeight="Bold"
-                          Foreground="#666"
+                          Foreground="{DynamicResource TextSecondary}"
                           HorizontalAlignment="Center"
-                          Margin="0,0,0,30"/>
+                          Margin="0,0,0,40"/>
 
                 <WrapPanel HorizontalAlignment="Center">
                     <Button Style="{StaticResource ProviderButton}" 
-                            Background="White"
                             Click="VodafoneButton_Click"
                             ToolTip="فودافون - اضغط للإدارة">
-                        <Image Source="/Resources/Images/vodafone.png" 
-                               Width="220" 
-                               Height="220"
-                               Stretch="Uniform"/>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/vodafone.png" 
+                                   Width="200" 
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,10,0,15"/>
+                            <TextBlock Text="Vodafone" 
+                                      FontSize="20" 
+                                      FontWeight="Bold" 
+                                      Foreground="#E60000"
+                                      HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
-                            Background="White"
                             Click="EtisalatButton_Click"
                             ToolTip="اتصالات - اضغط للإدارة">
-                        <Image Source="/Resources/Images/etisalat.png" 
-                               Width="220" 
-                               Height="220"
-                               Stretch="Uniform"/>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/etisalat.png" 
+                                   Width="200" 
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,10,0,15"/>
+                            <TextBlock Text="Etisalat" 
+                                      FontSize="20" 
+                                      FontWeight="Bold" 
+                                      Foreground="#7FBA00"
+                                      HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
-                            Background="White"
                             Click="WeButton_Click"
                             ToolTip="وي - اضغط للإدارة">
-                        <Image Source="/Resources/Images/we.png" 
-                               Width="220" 
-                               Height="220"
-                               Stretch="Uniform"/>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/we.png" 
+                                   Width="200" 
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,10,0,15"/>
+                            <TextBlock Text="WE" 
+                                      FontSize="20" 
+                                      FontWeight="Bold" 
+                                      Foreground="#6A1B9A"
+                                      HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
 
                     <Button Style="{StaticResource ProviderButton}" 
-                            Background="White"
                             Click="OrangeButton_Click"
                             ToolTip="اورنج - اضغط للإدارة">
-                        <Image Source="/Resources/Images/orange.png" 
-                               Width="220" 
-                               Height="220"
-                               Stretch="Uniform"/>
+                        <StackPanel>
+                            <Image Source="/Resources/Images/orange.png" 
+                                   Width="200" 
+                                   Height="200"
+                                   Stretch="Uniform"
+                                   Margin="0,10,0,15"/>
+                            <TextBlock Text="Orange" 
+                                      FontSize="20" 
+                                      FontWeight="Bold" 
+                                      Foreground="#FF7900"
+                                      HorizontalAlignment="Center"/>
+                        </StackPanel>
                     </Button>
                 </WrapPanel>
             </StackPanel>
