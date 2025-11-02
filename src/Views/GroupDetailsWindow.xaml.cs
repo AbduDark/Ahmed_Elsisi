@@ -123,6 +123,24 @@ public partial class GroupDetailsWindow : Window
         }
     }
 
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && !_viewModel.IsAddingLine)
+        {
+            if (_viewModel.AddLineCommand.CanExecute(null))
+            {
+                _viewModel.AddLineCommand.Execute(null);
+                
+                // التركيز على خانة رقم الخط بعد فتح النموذج
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    txtPhoneNumber.Focus();
+                    txtPhoneNumber.SelectAll();
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
+        }
+    }
+
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);
