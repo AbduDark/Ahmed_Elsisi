@@ -38,6 +38,10 @@ public class SearchViewModel : BaseViewModel
 
     public ICommand SearchCommand { get; }
     public ICommand ClearCommand { get; }
+    public ICommand OpenItemCommand { get; }
+
+    public event Action<LineGroup>? NavigateToGroupDetails;
+    public event Action<PhoneLine, LineGroup>? EditLine;
 
     public SearchViewModel(GroupService groupService, DatabaseContext context)
     {
@@ -53,6 +57,36 @@ public class SearchViewModel : BaseViewModel
         {
             SearchQuery = string.Empty;
             SearchResults.Clear();
+        });
+
+        OpenItemCommand = new RelayCommand<SearchResult>((result) =>
+        {
+            if (result == null) return;
+
+            if (result.Type == "مجموعة")
+            {
+                // فتح تفاصيل المجموعة
+                var group = _context.LineGroups
+                    .Include(g => g.Lines)
+                    .FirstOrDefault(g => g.Name == result.GroupName);
+                
+                if (group != null)
+                {
+                    NavigateToGroupDetails?.Invoke(group);
+                }
+            }
+            else if (result.Type == "خط" || result.Type == "خط (من المجموعة)")
+            {
+                // فتح تعديل الخط
+                var line = _context.PhoneLines
+                    .Include(l => l.Group)
+                    .FirstOrDefault(l => l.PhoneNumber == result.PhoneNumber && l.NationalId == result.NationalId);
+                
+                if (line != null && line.Group != null)
+                {
+                    EditLine?.Invoke(line, line.Group);
+                }
+            }
         });
     }
 
