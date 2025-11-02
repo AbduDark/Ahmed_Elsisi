@@ -38,6 +38,14 @@ public class SearchViewModel : BaseViewModel
 
     public ICommand SearchCommand { get; }
     public ICommand ClearCommand { get; }
+    public ICommand OpenItemCommand { get; }
+    public ICommand DeleteItemCommand { get; }
+    public ICommand EditItemCommand { get; }
+
+    public event Action<LineGroup>? NavigateToGroupDetails;
+    public event Action<PhoneLine, LineGroup>? EditLine;
+    public event Action<int>? DeleteLine;
+    public event Action<int>? DeleteGroup;
 
     public SearchViewModel(GroupService groupService, DatabaseContext context)
     {
@@ -53,6 +61,98 @@ public class SearchViewModel : BaseViewModel
         {
             SearchQuery = string.Empty;
             SearchResults.Clear();
+        });
+
+        OpenItemCommand = new RelayCommand<SearchResult>((result) =>
+        {
+            if (result == null) return;
+
+            if (result.Type == "مجموعة")
+            {
+                // فتح تفاصيل المجموعة
+                var group = _context.LineGroups
+                    .Include(g => g.Lines)
+                    .FirstOrDefault(g => g.Name == result.GroupName);
+                
+                if (group != null)
+                {
+                    NavigateToGroupDetails?.Invoke(group);
+                }
+            }
+            else if (result.Type == "خط" || result.Type == "خط (من المجموعة)")
+            {
+                // فتح تعديل الخط
+                var line = _context.PhoneLines
+                    .Include(l => l.Group)
+                    .FirstOrDefault(l => l.PhoneNumber == result.PhoneNumber && l.NationalId == result.NationalId);
+                
+                if (line != null && line.Group != null)
+                {
+                    EditLine?.Invoke(line, line.Group);
+                }
+            }
+        });
+
+        DeleteItemCommand = new RelayCommand<SearchResult>((result) =>
+        {
+            if (result == null) return;
+
+            var confirmResult = System.Windows.MessageBox.Show(
+                $"هل أنت متأكد من حذف {result.Type}: {(result.Type == "مجموعة" ? result.GroupName : result.Name)}؟",
+                "تأكيد الحذف",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (confirmResult == System.Windows.MessageBoxResult.Yes)
+            {
+                if (result.Type == "مجموعة")
+                {
+                    var group = _context.LineGroups.FirstOrDefault(g => g.Name == result.GroupName);
+                    if (group != null)
+                    {
+                        DeleteGroup?.Invoke(group.Id);
+                        PerformSearch();
+                    }
+                }
+                else if (result.Type == "خط" || result.Type == "خط (من المجموعة)")
+                {
+                    var line = _context.PhoneLines
+                        .FirstOrDefault(l => l.PhoneNumber == result.PhoneNumber && l.NationalId == result.NationalId);
+                    if (line != null)
+                    {
+                        DeleteLine?.Invoke(line.Id);
+                        PerformSearch();
+                    }
+                }
+            }
+        });
+
+        EditItemCommand = new RelayCommand<SearchResult>((result) =>
+        {
+            if (result == null) return;
+
+            if (result.Type == "مجموعة")
+            {
+                var group = _context.LineGroups
+                    .Include(g => g.Lines)
+                    .FirstOrDefault(g => g.Name == result.GroupName);
+                
+                if (group != null)
+                {
+                    NavigateToGroupDetails?.Invoke(group);
+                }
+            }
+            else if (result.Type == "خط" || result.Type == "خط (من المجموعة)")
+            {
+                var line = _context.PhoneLines
+                    .Include(l => l.Group)
+                    .FirstOrDefault(l => l.PhoneNumber == result.PhoneNumber && l.NationalId == result.NationalId);
+                
+                if (line != null && line.Group != null)
+                {
+                    EditLine?.Invoke(line, line.Group);
+                }
+            }
         });
     }
 

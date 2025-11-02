@@ -113,7 +113,26 @@
                       RowHeight="45"
                       HeadersVisibility="Column"
                       CanUserResizeRows="False"
-                      IsReadOnly="True">
+                      IsReadOnly="True"
+                      MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="فتح / تعديل" 
+                                  Command="{Binding EditItemCommand}"
+                                  CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                            <MenuItem.Icon>
+                                <TextBlock Text="✏️" FontSize="14"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="حذف" 
+                                  Command="{Binding DeleteItemCommand}"
+                                  CommandParameter="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ContextMenu}}">
+                            <MenuItem.Icon>
+                                <TextBlock Text="🗑️" FontSize="14"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Resources>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Padding" Value="10,5"/>

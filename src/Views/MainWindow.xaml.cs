@@ -56,7 +56,7 @@ public partial class MainWindow : Window
 
     private void SearchButton_Click(object sender, RoutedEventArgs e)
     {
-        var searchWindow = new SearchWindow(_groupService);
+        var searchWindow = new SearchWindow(_groupService, _alertService);
         searchWindow.Show();
     }
 
