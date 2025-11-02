@@ -100,7 +100,34 @@ LineManagementSystem/
 
 ## Recent Changes
 
-### November 2, 2025 (Night Update - Latest)
+### November 2, 2025 (Late Night Update - Latest)
+- ✅ **Enhanced Group Dialog with Dark Mode Support**:
+  - Added theme toggle button (🌙) to GroupDialog with DynamicResource bindings
+  - Increased dialog size to 650x700 for better usability
+  - Theme button adapts to both Light/Dark modes with proper contrast
+- ✅ **Custom Column Colors in Groups Table**:
+  - Group Name: Blue (#2196F3) with bold font
+  - Status: Yellow (#FFC107) with bold font
+  - Last Renewal: Blue (#2196F3) with semi-bold font
+  - Responsible Employee: Blue (#2196F3) with semi-bold font
+  - Customer: Blue (#2196F3) with semi-bold font
+  - Delivery Date: Orange (#FF9800) with bold font
+- ✅ **Improved Selected Row Visual Design**:
+  - Added 3px left border in blue (#1976D2) for selected rows
+  - Enhanced selection highlighting with better contrast
+  - Added subtle row borders for better visual separation
+- ✅ **Enhanced Delete Confirmation Dialog**:
+  - Detailed confirmation message showing group name, line count, and provider
+  - Clear warning about permanent deletion
+  - Success message after deletion with group name confirmation
+  - Improved error messages with helpful context
+  - Safe default (No button) to prevent accidental deletions
+- ✅ **Removed Redundant NextRenewal Field**:
+  - Simplified UI by removing manual NextRenewal input (calculated automatically)
+  - Clear label explaining automatic 60-day calculation
+  - Maintains data integrity with existing save logic
+
+### November 2, 2025 (Night Update)
 - ✅ **Fixed Dark Mode Color Consistency**:
   - Updated all DataGrid styles to use DynamicResource for theme-aware colors
   - Fixed text visibility issues in Light/Dark modes
