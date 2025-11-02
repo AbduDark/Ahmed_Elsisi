@@ -1,5 +1,11 @@
 # Line Management System for Telecom Providers
 
+## Project Information
+
+**Owner**: Ahmed Elsisi (أحمد السيسي)  
+**Developer**: Abdelrahman Sayed (عبد الرحمن سيد)  
+**Development Assistance**: Replit Agent
+
 ## Overview
 
 A Windows desktop application (WPF) for managing mobile phone lines for Egyptian telecom providers (Vodafone, Etisalat, WE, Orange). The system manages groups of lines with automatic renewal tracking, customer delivery management, and barcode scanning support.
@@ -100,7 +106,40 @@ LineManagementSystem/
 
 ## Recent Changes
 
-### November 2, 2025 (Late Night Update - Latest)
+### November 2, 2025 (Major Update - Backup & Reporting System)
+- ✅ **Complete DataGrid Selection Styling Overhaul**:
+  - Removed all hardcoded selection styles across all windows
+  - Created centralized ModernDataGridCell, ModernDataGridRow, ModernDataGridColumnHeader styles
+  - Implemented full theme-aware selection colors (works perfectly in Light/Dark modes)
+  - Selected rows now show Blue (#2196F3) background with White text in both themes
+  - Selected cells show lighter Blue (#42A5F5) with White text
+  - Eliminated all color visibility issues with selected rows
+- ✅ **Updated Project Credits**:
+  - Owner: Ahmed Elsisi (أحمد السيسي)
+  - Developer: Abdelrahman Sayed (عبد الرحمن سيد)
+  - Updated README.md and replit.md with proper attribution
+- ✅ **Backup & Restore System**:
+  - Created BackupService with full backup/restore functionality
+  - Manual backup with custom naming support
+  - Automatic backup system (24-hour intervals)
+  - Restore with safety checks and automatic rollback on failure
+  - Old backup cleanup (keeps latest 50)
+  - Dedicated backup directory (Backups/)
+- ✅ **Enhanced Settings Window**:
+  - Redesigned settings window (900x700) with better organization
+  - Backup section with 4 action buttons (Create, Restore, Open Folder, Delete Old)
+  - Auto-backup toggle with status display
+  - Reports section with placeholders for Excel/PDF export
+  - Provider statistics viewer (shows groups, lines, and wallet counts per provider)
+  - Updated app version to 2.0.0
+  - Professional card-based layout with sections
+- ✅ **Reports Foundation**:
+  - Added UI for Excel and PDF export (implementation pending)
+  - Provider statistics feature (fully functional)
+  - Displays comprehensive stats per telecom provider
+  - Shows total groups, lines, and cash wallet counts
+
+### November 2, 2025 (Late Night Update)
 - ✅ **Enhanced Search Window**:
   - Increased row height from 45px to 60px for better readability
   - Larger font sizes (14-15px) across all columns

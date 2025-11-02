@@ -122,50 +122,6 @@
                       CanUserResizeRows="False"
                       AlternatingRowBackground="{DynamicResource DataGridAlternateRow}"
                       KeyDown="DataGrid_KeyDown">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridCell">
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Padding" Value="8,5"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource DataGridCellSelected}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="{DynamicResource DataGridRowBackground}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
-                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource DataGridGridLines}"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource DataGridRowHover}"/>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected" Value="True"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="Background" Value="{DynamicResource DataGridRowSelected}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
-                                <Setter Property="BorderThickness" Value="3,0,0,1"/>
-                                <Setter Property="BorderBrush" Value="#1976D2"/>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="{DynamicResource DataGridHeaderBackground}"/>
-                        <Setter Property="Foreground" Value="{DynamicResource DataGridHeaderForeground}"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Padding" Value="10,12"/>
-                        <Setter Property="BorderThickness" Value="0,0,1,0"/>
-                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="13"/>
-                    </Style>
-                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="الشعار" Width="80">
                         <DataGridTemplateColumn.CellTemplate>
