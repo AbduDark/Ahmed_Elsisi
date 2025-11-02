@@ -35,7 +35,13 @@ public static class ThemeManager
             app.Resources["HoverBackground"] = new SolidColorBrush(Color.FromRgb(50, 50, 50));
             app.Resources["DataGridBackground"] = new SolidColorBrush(Color.FromRgb(25, 25, 25));
             app.Resources["DataGridHeaderBackground"] = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+            app.Resources["DataGridHeaderForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             app.Resources["DataGridAlternateRow"] = new SolidColorBrush(Color.FromRgb(30, 30, 30));
+            app.Resources["DataGridRowBackground"] = new SolidColorBrush(Color.FromRgb(28, 28, 28));
+            app.Resources["DataGridRowHover"] = new SolidColorBrush(Color.FromRgb(45, 45, 45));
+            app.Resources["DataGridRowSelected"] = new SolidColorBrush(Color.FromRgb(60, 80, 100));
+            app.Resources["DataGridCellSelected"] = new SolidColorBrush(Color.FromRgb(50, 70, 90));
+            app.Resources["DataGridGridLines"] = new SolidColorBrush(Color.FromRgb(50, 50, 50));
             app.Resources["InputBackground"] = new SolidColorBrush(Color.FromRgb(40, 40, 40));
             app.Resources["InputBorder"] = new SolidColorBrush(Color.FromRgb(70, 70, 70));
         }
@@ -50,7 +56,13 @@ public static class ThemeManager
             app.Resources["HoverBackground"] = new SolidColorBrush(Color.FromRgb(245, 245, 245));
             app.Resources["DataGridBackground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             app.Resources["DataGridHeaderBackground"] = new SolidColorBrush(Color.FromRgb(55, 71, 79));
+            app.Resources["DataGridHeaderForeground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             app.Resources["DataGridAlternateRow"] = new SolidColorBrush(Color.FromRgb(250, 250, 250));
+            app.Resources["DataGridRowBackground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            app.Resources["DataGridRowHover"] = new SolidColorBrush(Color.FromRgb(245, 245, 245));
+            app.Resources["DataGridRowSelected"] = new SolidColorBrush(Color.FromRgb(187, 222, 251));
+            app.Resources["DataGridCellSelected"] = new SolidColorBrush(Color.FromRgb(227, 242, 253));
+            app.Resources["DataGridGridLines"] = new SolidColorBrush(Color.FromRgb(236, 239, 241));
             app.Resources["InputBackground"] = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             app.Resources["InputBorder"] = new SolidColorBrush(Color.FromRgb(207, 216, 220));
         }

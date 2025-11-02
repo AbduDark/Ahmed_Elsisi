@@ -65,6 +65,18 @@ public partial class MainWindow : Window
         ThemeManager.ToggleTheme();
     }
 
+    private void SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var currentTheme = ThemeManager.IsDarkMode ? "وضع ليلي" : "وضع نهاري";
+        var message = $"⚙️ إعدادات التطبيق\n\n" +
+                      $"الوضع الحالي: {currentTheme}\n\n" +
+                      $"لتغيير الوضع الليلي/النهاري:\n" +
+                      $"اضغط على زر 🌙 في أي واجهة\n\n" +
+                      $"ستتم إضافة المزيد من الإعدادات قريباً!";
+        
+        MessageBox.Show(message, "الإعدادات", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
     protected override void OnClosed(EventArgs e)
     {
         base.OnClosed(e);

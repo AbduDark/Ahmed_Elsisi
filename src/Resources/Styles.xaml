@@ -10,7 +10,13 @@
     <SolidColorBrush x:Key="HoverBackground" Color="#F5F5F5"/>
     <SolidColorBrush x:Key="DataGridBackground" Color="White"/>
     <SolidColorBrush x:Key="DataGridHeaderBackground" Color="#37474F"/>
+    <SolidColorBrush x:Key="DataGridHeaderForeground" Color="White"/>
     <SolidColorBrush x:Key="DataGridAlternateRow" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="DataGridRowBackground" Color="White"/>
+    <SolidColorBrush x:Key="DataGridRowHover" Color="#F5F5F5"/>
+    <SolidColorBrush x:Key="DataGridRowSelected" Color="#BBDEFB"/>
+    <SolidColorBrush x:Key="DataGridCellSelected" Color="#E3F2FD"/>
+    <SolidColorBrush x:Key="DataGridGridLines" Color="#ECEFF1"/>
     <SolidColorBrush x:Key="InputBackground" Color="White"/>
     <SolidColorBrush x:Key="InputBorder" Color="#CFD8DC"/>
 

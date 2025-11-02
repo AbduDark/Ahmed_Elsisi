@@ -84,4 +84,9 @@ public partial class SearchWindow : Window
             }
         }
     }
+
+    private void ToggleTheme_Click(object sender, RoutedEventArgs e)
+    {
+        ThemeManager.ToggleTheme();
+    }
 }

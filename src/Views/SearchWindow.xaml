@@ -10,7 +10,7 @@
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
         FlowDirection="RightToLeft"
-        Background="#F5F5F5">
+        Background="{DynamicResource WindowBackground}">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -25,7 +25,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="White" Padding="20" Margin="0,0,0,20" CornerRadius="10">
+        <Button Grid.Row="0" 
+                Style="{StaticResource ThemeToggleButton}"
+                Content="🌙"
+                Click="ToggleTheme_Click"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="0,-20,0,0"
+                Panel.ZIndex="1000"
+                ToolTip="تبديل الوضع الليلي/النهاري"/>
+
+        <Border Grid.Row="0" Background="{DynamicResource CardBackground}" Padding="20" Margin="0,0,0,20" CornerRadius="10">
             <Border.Effect>
                 <DropShadowEffect Color="Black" Opacity="0.1" BlurRadius="10" ShadowDepth="3"/>
             </Border.Effect>
@@ -97,8 +107,8 @@
         </Border>
 
         <Border Grid.Row="2" 
-                Background="White" 
-                BorderBrush="#CFD8DC"
+                Background="{DynamicResource CardBackground}" 
+                BorderBrush="{DynamicResource BorderColor}"
                 BorderThickness="1"
                 CornerRadius="10"
                 Padding="0">
@@ -112,11 +122,12 @@
                       Background="Transparent"
                       BorderThickness="0"
                       GridLinesVisibility="Horizontal"
-                      HorizontalGridLinesBrush="#ECEFF1"
+                      HorizontalGridLinesBrush="{DynamicResource DataGridGridLines}"
                       RowHeight="45"
                       HeadersVisibility="Column"
                       CanUserResizeRows="False"
                       IsReadOnly="True"
+                      AlternatingRowBackground="{DynamicResource DataGridAlternateRow}"
                       MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
@@ -140,34 +151,37 @@
                     <Style TargetType="DataGridCell">
                         <Setter Property="Padding" Value="10,5"/>
                         <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="Background" Value="#E3F2FD"/>
-                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Background" Value="{DynamicResource DataGridCellSelected}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
                     <Style TargetType="DataGridRow">
-                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Background" Value="{DynamicResource DataGridRowBackground}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#F5F5F5"/>
+                                <Setter Property="Background" Value="{DynamicResource DataGridRowHover}"/>
                             </Trigger>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
                                     <Condition Property="IsSelected" Value="True"/>
                                 </MultiTrigger.Conditions>
-                                <Setter Property="Background" Value="#BBDEFB"/>
+                                <Setter Property="Background" Value="{DynamicResource DataGridRowSelected}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
                             </MultiTrigger>
                         </Style.Triggers>
                     </Style>
                     <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="#1976D2"/>
-                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Background" Value="{DynamicResource DataGridHeaderBackground}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource DataGridHeaderForeground}"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="Padding" Value="10,10"/>
                         <Setter Property="BorderThickness" Value="0,0,1,0"/>
-                        <Setter Property="BorderBrush" Value="#1565C0"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
                         <Setter Property="HorizontalContentAlignment" Value="Center"/>
                         <Setter Property="FontSize" Value="14"/>
                     </Style>

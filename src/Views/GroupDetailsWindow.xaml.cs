@@ -33,22 +33,6 @@ public partial class GroupDetailsWindow : Window
         };
 
         DataContext = _viewModel;
-
-        var color = group.Provider.GetColorHex();
-        
-        // تطبيق لون خلفية خفيف مناسب لكل مزود
-        var backgroundColor = group.Provider switch
-        {
-            TelecomProvider.Vodafone => "#FFF5F5",    // خلفية حمراء فاتحة جداً
-            TelecomProvider.Etisalat => "#F1F8E9",    // خلفية خضراء فاتحة جداً
-            TelecomProvider.We => "#F3E5F5",          // خلفية بنفسجية فاتحة جداً
-            TelecomProvider.Orange => "#FFF3E0",      // خلفية برتقالية فاتحة جداً
-            _ => "#F5F5F5"
-        };
-        
-        Background = new System.Windows.Media.SolidColorBrush(
-            (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(backgroundColor)
-        );
     }
 
     protected override void OnContentRendered(EventArgs e)
