@@ -98,8 +98,19 @@ LineManagementSystem/
 └── README.md
 ```
 
-## Recent Changes (November 1, 2025)
+## Recent Changes
 
+### November 2, 2025
+- ✅ Added automatic post-build copy of images to output directory (solves icon visibility issue when running exe)
+- ✅ Improved alert display with warning icons (⚠) instead of checkmarks
+- ✅ Enhanced alert UI with proper hide button and better visibility
+- ✅ Completely redesigned DataGrid in ProviderGroupsWindow with modern styling
+- ✅ Added color-coded cells and badges for better data visualization
+- ✅ Improved row height and spacing for better readability
+- ✅ Fixed resource pack URIs to ensure icons load correctly in all windows
+- ✅ Added proper Link elements in csproj to maintain correct resource logical names
+
+### November 1, 2025
 - ✅ Implemented complete WPF application with MVVM pattern
 - ✅ Added SQLite database with Entity Framework Core
 - ✅ Created alert service with automatic 5-minute checks
