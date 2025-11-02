@@ -57,19 +57,27 @@ public partial class GroupDetailsWindow : Window
         {
             var textBox = sender as TextBox;
             if (textBox == txtName)
+            {
                 txtNationalId.Focus();
+            }
             else if (textBox == txtNationalId)
+            {
                 txtPhoneNumber.Focus();
+            }
             else if (textBox == txtPhoneNumber)
+            {
                 txtInternalId.Focus();
+            }
             else if (textBox == txtInternalId)
-                chkHasCashWallet.Focus();
-            else if (textBox == txtCashWalletNumber)
             {
                 if (_viewModel.SaveLineCommand.CanExecute(null))
                 {
                     _viewModel.SaveLineCommand.Execute(null);
                 }
+            }
+            else if (textBox == txtCashWalletNumber)
+            {
+                txtName.Focus();
             }
         }
     }

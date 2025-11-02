@@ -83,6 +83,7 @@ public class GroupService
 
     public void UpdateLine(PhoneLine line)
     {
+        _context.ChangeTracker.Clear();
         line.UpdatedAt = DateTime.Now;
         _context.PhoneLines.Update(line);
         _context.SaveChanges();
