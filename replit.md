@@ -59,10 +59,20 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (November 2025)
 
-### Bug Fixes
+### Bug Fixes (Latest)
+- **Line Deletion Fix**: Fixed issue where phone lines were not being deleted properly. Added ChangeTracker.Clear() before ExecuteDelete in GroupService.DeleteLine() to ensure clean deletion without tracking conflicts.
 - **NullReferenceException Fix**: Fixed crash when deleting groups or lines by storing group name before LoadGroups() call.
 
-### New Features
+### New Features (Latest)
+- **Custom Excel Import Settings Dialog**:
+  - Created ImportSettingsDialog.xaml with comprehensive column selection interface
+  - Users can now customize which columns contain specific data using checkboxes
+  - Supports both required fields (Name, National ID, Phone Number) and optional fields (Internal ID, Cash Wallet status, Wallet Number)
+  - Shows column previews from the Excel file for easier selection
+  - Validates all required selections before import
+  - Added ImportService.ImportFromExcelWithCustomSettings() method for custom column mapping
+  - Supports custom boolean parsing for cash wallet (نعم/لا, yes/no, 1/0, true/false)
+
 - **Excel Import System**: 
   - Added ImportService with smart column detection algorithm
   - Supports files with or without headers
