@@ -106,6 +106,14 @@
                         <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
                     </Button.Effect>
                 </Button>
+                <Button Content="📥 استيراد من Excel"
+                        Style="{StaticResource ActionButton}"
+                        Background="#9C27B0"
+                        Click="ImportExcel_Click">
+                    <Button.Effect>
+                        <DropShadowEffect Color="#000000" Opacity="0.2" BlurRadius="5" ShadowDepth="2"/>
+                    </Button.Effect>
+                </Button>
                 <Button Content="📄 تصدير Excel"
                         Style="{StaticResource ActionButton}"
                         Background="#43A047"

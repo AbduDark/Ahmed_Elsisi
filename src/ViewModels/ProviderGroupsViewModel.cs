@@ -54,9 +54,10 @@ public class ProviderGroupsViewModel : BaseViewModel
         {
             if (SelectedGroup != null)
             {
+                var groupName = SelectedGroup.Name;
                 var lineCount = SelectedGroup.Lines?.Count ?? 0;
                 var message = $"⚠️ تحذير: حذف نهائي\n\n" +
-                             $"المجموعة: {SelectedGroup.Name}\n" +
+                             $"المجموعة: {groupName}\n" +
                              $"عدد الخطوط: {lineCount}\n" +
                              $"الشركة: {SelectedGroup.Provider}\n\n" +
                              $"سيتم حذف المجموعة وجميع الخطوط التابعة لها ({lineCount} خط) بشكل نهائي.\n" +
@@ -77,7 +78,7 @@ public class ProviderGroupsViewModel : BaseViewModel
                         _groupService.DeleteGroup(SelectedGroup.Id);
                         LoadGroups();
                         System.Windows.MessageBox.Show(
-                            $"✓ تم حذف المجموعة '{SelectedGroup.Name}' بنجاح",
+                            $"✓ تم حذف المجموعة '{groupName}' بنجاح",
                             "نجح الحذف",
                             System.Windows.MessageBoxButton.OK,
                             System.Windows.MessageBoxImage.Information);

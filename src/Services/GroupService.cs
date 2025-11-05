@@ -130,4 +130,32 @@ public class GroupService
             _context.SaveChanges();
         }
     }
+
+    public void ImportLines(int groupId, List<PhoneLine> lines)
+    {
+        var group = GetGroupById(groupId);
+        if (group == null)
+        {
+            throw new InvalidOperationException("المجموعة غير موجودة");
+        }
+
+        var currentLineCount = group.Lines.Count;
+        var newLineCount = lines.Count;
+        var totalCount = currentLineCount + newLineCount;
+
+        if (totalCount > group.MaxLines)
+        {
+            throw new InvalidOperationException($"لا يمكن استيراد {newLineCount} خط. المجموعة تحتوي على {currentLineCount} خط والحد الأقصى {group.MaxLines} خط.");
+        }
+
+        foreach (var line in lines)
+        {
+            line.GroupId = groupId;
+            line.CreatedAt = DateTime.Now;
+            line.UpdatedAt = DateTime.Now;
+            _context.PhoneLines.Add(line);
+        }
+
+        _context.SaveChanges();
+    }
 }

@@ -14,7 +14,9 @@ public partial class GroupDetailsWindow : Window
     private readonly ProviderGroupsViewModel _parentViewModel;
     private readonly AlertService _alertService;
     private readonly ExportService _exportService;
+    private readonly ImportService _importService;
     private readonly DatabaseContext _context;
+    private readonly GroupService _groupService;
 
     public GroupDetailsWindow(LineGroup group, ProviderGroupsViewModel parentViewModel, AlertService alertService)
     {
@@ -24,11 +26,12 @@ public partial class GroupDetailsWindow : Window
         // نتأكد إن الـ context نظيف من أي tracking قديم
         _context.ChangeTracker.Clear();
 
-        var groupService = new GroupService(_context);
-        _viewModel = new GroupDetailsViewModel(groupService, group);
+        _groupService = new GroupService(_context);
+        _viewModel = new GroupDetailsViewModel(_groupService, group);
         _parentViewModel = parentViewModel;
         _alertService = alertService;
         _exportService = new ExportService(_context);
+        _importService = new ImportService();
 
         _viewModel.LineAdded += () =>
         {
@@ -193,6 +196,60 @@ public partial class GroupDetailsWindow : Window
         catch (Exception ex)
         {
             MessageBox.Show($"حدث خطأ أثناء التصدير: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
+    private void ImportExcel_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var openDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*.xls",
+                Title = "اختر ملف Excel للاستيراد"
+            };
+
+            if (openDialog.ShowDialog() == true)
+            {
+                var result = _importService.ImportFromExcel(openDialog.FileName, _viewModel.Group.Id);
+
+                if (result.SuccessCount > 0)
+                {
+                    _groupService.ImportLines(_viewModel.Group.Id, result.ImportedLines);
+                    _viewModel.LoadLines();
+                    _parentViewModel.LoadGroups();
+                }
+
+                var message = $"تم الاستيراد بنجاح!\n\n" +
+                             $"✓ تم استيراد: {result.SuccessCount} خط\n";
+
+                if (result.FailedCount > 0)
+                {
+                    message += $"✗ فشل: {result.FailedCount} خط\n\n";
+                    
+                    if (result.Errors.Count > 0)
+                    {
+                        message += "الأخطاء:\n";
+                        var errorCount = Math.Min(5, result.Errors.Count);
+                        for (int i = 0; i < errorCount; i++)
+                        {
+                            message += $"- {result.Errors[i]}\n";
+                        }
+                        
+                        if (result.Errors.Count > 5)
+                        {
+                            message += $"... و {result.Errors.Count - 5} خطأ إضافي";
+                        }
+                    }
+                }
+
+                MessageBox.Show(message, "نتيجة الاستيراد", MessageBoxButton.OK, 
+                    result.FailedCount == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"حدث خطأ أثناء الاستيراد:\n{ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
