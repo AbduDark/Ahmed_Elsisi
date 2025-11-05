@@ -211,40 +211,58 @@ public partial class GroupDetailsWindow : Window
 
             if (openDialog.ShowDialog() == true)
             {
-                var result = _importService.ImportFromExcel(openDialog.FileName, _viewModel.Group.Id);
-
-                if (result.SuccessCount > 0)
+                var settingsDialog = new ImportSettingsDialog(openDialog.FileName);
+                if (settingsDialog.ShowDialog() == true && settingsDialog.Settings != null)
                 {
-                    _groupService.ImportLines(_viewModel.Group.Id, result.ImportedLines);
-                    _viewModel.LoadLines();
-                    _parentViewModel.LoadGroups();
-                }
-
-                var message = $"تم الاستيراد بنجاح!\n\n" +
-                             $"✓ تم استيراد: {result.SuccessCount} خط\n";
-
-                if (result.FailedCount > 0)
-                {
-                    message += $"✗ فشل: {result.FailedCount} خط\n\n";
-                    
-                    if (result.Errors.Count > 0)
+                    var customSettings = new ImportService.CustomImportSettings
                     {
-                        message += "الأخطاء:\n";
-                        var errorCount = Math.Min(5, result.Errors.Count);
-                        for (int i = 0; i < errorCount; i++)
-                        {
-                            message += $"- {result.Errors[i]}\n";
-                        }
+                        HasHeader = settingsDialog.Settings.HasHeader,
+                        NameColumn = settingsDialog.Settings.NameColumn,
+                        NationalIdColumn = settingsDialog.Settings.NationalIdColumn,
+                        PhoneNumberColumn = settingsDialog.Settings.PhoneNumberColumn,
+                        InternalIdColumn = settingsDialog.Settings.InternalIdColumn,
+                        HasCashWalletColumn = settingsDialog.Settings.HasCashWalletColumn,
+                        CashWalletNumberColumn = settingsDialog.Settings.CashWalletNumberColumn
+                    };
+
+                    var result = _importService.ImportFromExcelWithCustomSettings(
+                        openDialog.FileName, 
+                        _viewModel.Group.Id, 
+                        customSettings);
+
+                    if (result.SuccessCount > 0)
+                    {
+                        _groupService.ImportLines(_viewModel.Group.Id, result.ImportedLines);
+                        _viewModel.LoadLines();
+                        _parentViewModel.LoadGroups();
+                    }
+
+                    var message = $"تم الاستيراد بنجاح!\n\n" +
+                                 $"✓ تم استيراد: {result.SuccessCount} خط\n";
+
+                    if (result.FailedCount > 0)
+                    {
+                        message += $"✗ فشل: {result.FailedCount} خط\n\n";
                         
-                        if (result.Errors.Count > 5)
+                        if (result.Errors.Count > 0)
                         {
-                            message += $"... و {result.Errors.Count - 5} خطأ إضافي";
+                            message += "الأخطاء:\n";
+                            var errorCount = Math.Min(5, result.Errors.Count);
+                            for (int i = 0; i < errorCount; i++)
+                            {
+                                message += $"- {result.Errors[i]}\n";
+                            }
+                            
+                            if (result.Errors.Count > 5)
+                            {
+                                message += $"... و {result.Errors.Count - 5} خطأ إضافي";
+                            }
                         }
                     }
-                }
 
-                MessageBox.Show(message, "نتيجة الاستيراد", MessageBoxButton.OK, 
-                    result.FailedCount == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
+                    MessageBox.Show(message, "نتيجة الاستيراد", MessageBoxButton.OK, 
+                        result.FailedCount == 0 ? MessageBoxImage.Information : MessageBoxImage.Warning);
+                }
             }
         }
         catch (Exception ex)
