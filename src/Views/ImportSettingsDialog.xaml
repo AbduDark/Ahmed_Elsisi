@@ -26,9 +26,15 @@
                    HorizontalAlignment="Center"/>
 
         <Border Grid.Row="1" 
-                Style="{StaticResource ModernCard}"
                 Background="#2196F3"
+                CornerRadius="16"
+                Padding="25"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource BorderColor}"
                 Margin="0,0,0,15">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.08" BlurRadius="15" ShadowDepth="3"/>
+            </Border.Effect>
             <StackPanel>
                 <TextBlock Text="📋 حدد محتويات الأعمدة في ملف Excel" 
                            FontSize="16" 
@@ -224,16 +230,68 @@
                     Width="120" 
                     Height="40"
                     Margin="10,0"
-                    Style="{StaticResource ModernButton}"
                     Background="#2196F3"
-                    Click="ImportButton_Click"/>
+                    Foreground="White"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Padding="20,12"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="ImportButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" Opacity="0.15" BlurRadius="8" ShadowDepth="2"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
             <Button Content="❌ إلغاء" 
                     Width="120" 
                     Height="40"
                     Margin="10,0"
-                    Style="{StaticResource ModernButton}"
                     Background="#757575"
-                    Click="CancelButton_Click"/>
+                    Foreground="White"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Padding="20,12"
+                    BorderThickness="0"
+                    Cursor="Hand"
+                    Click="CancelButton_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" Opacity="0.15" BlurRadius="8" ShadowDepth="2"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Opacity" Value="0.75"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

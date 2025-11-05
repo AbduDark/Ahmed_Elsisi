@@ -80,11 +80,17 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes (November 2025)
 
 ### Latest Fixes (November 5, 2025 - Replit Import)
-- **MaterialDesign Resource Fix**: Replaced MaterialDesign styles in ImportSettingsDialog.xaml with custom ModernButton styles to match the rest of the application
-  - Removed `materialDesign:Card` component, replaced with standard Border with ModernCard style
-  - Removed MaterialDesign button styles, using ModernButton from Styles.xaml instead
-  - Removed unused MaterialDesign namespace references
-  - Build now succeeds with 0 errors and 0 warnings
+- **Resource Resolution Fix**: Fixed "ModernCard" and "ModernButton" resource resolution errors in ImportSettingsDialog.xaml
+  - Replaced StaticResource references with inline style definitions
+  - Border component now uses direct properties (CornerRadius, Padding, BorderThickness, DropShadowEffect)
+  - Buttons now use inline ControlTemplate with all ModernButton properties
+  - This ensures the dialog works correctly even if resource dictionaries aren't merged properly
+  - Build succeeds with 0 errors and 0 warnings
+  
+- **MaterialDesign Namespace Cleanup**: Removed MaterialDesign dependencies from ImportSettingsDialog.xaml
+  - Removed `materialDesign:Card` component, replaced with standard Border
+  - Removed MaterialDesign namespace references
+  - Application now uses consistent custom styling throughout
 
 ### New Features (November 5, 2025)
 - **Line System Field**: Added new "LineSystem" field to PhoneLine model to track line system information
