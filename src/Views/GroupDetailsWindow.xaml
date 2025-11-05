@@ -216,7 +216,16 @@
                                  KeyDown="TextBox_KeyDown"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="5">
+                    <StackPanel Grid.Row="3" Grid.Column="0" Margin="5">
+                        <TextBlock Text="نظام الخط (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtLineSystem"
+                                 Text="{Binding NewLine.LineSystem, UpdateSourceTrigger=PropertyChanged}"
+                                 Padding="10"
+                                 FontSize="14"
+                                 KeyDown="TextBox_KeyDown"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1" Margin="5">
                         <TextBlock Text="تفاصيل إضافية (اختياري)" FontWeight="Bold" Margin="0,0,0,5"/>
                         <TextBox x:Name="txtDetails"
                                  Text="{Binding NewLine.Details, UpdateSourceTrigger=PropertyChanged}"
@@ -327,6 +336,14 @@
                             <Style TargetType="TextBlock">
                                 <Setter Property="VerticalAlignment" Value="Center"/>
                                 <Setter Property="Foreground" Value="#00897B"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="نظام الخط" Binding="{Binding LineSystem}" Width="120" FontSize="13">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Foreground" Value="#1976D2"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>

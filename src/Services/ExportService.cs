@@ -65,9 +65,10 @@ public class ExportService
         worksheet.Cell(1, 4).Value = "ID داخلي";
         worksheet.Cell(1, 5).Value = "محفظة كاش";
         worksheet.Cell(1, 6).Value = "رقم المحفظة";
-        worksheet.Cell(1, 7).Value = "المزود";
-        worksheet.Cell(1, 8).Value = "المجموعة";
-        worksheet.Cell(1, 9).Value = "التفاصيل";
+        worksheet.Cell(1, 7).Value = "نظام الخط";
+        worksheet.Cell(1, 8).Value = "المزود";
+        worksheet.Cell(1, 9).Value = "المجموعة";
+        worksheet.Cell(1, 10).Value = "التفاصيل";
 
         int row = 2;
         foreach (var line in exportLines)
@@ -88,16 +89,17 @@ public class ExportService
             worksheet.Cell(row, 4).Value = line.InternalId;
             worksheet.Cell(row, 5).Value = line.HasCashWallet ? "نعم" : "لا";
             worksheet.Cell(row, 6).Value = line.CashWalletNumber ?? "";
+            worksheet.Cell(row, 7).Value = line.LineSystem ?? "";
             
-            worksheet.Cell(row, 7).Value = group?.Provider.ToString() ?? "";
-            worksheet.Cell(row, 7).Style.Fill.BackgroundColor = providerColor;
-            worksheet.Cell(row, 7).Style.Font.FontColor = XLColor.White;
-            worksheet.Cell(row, 7).Style.Font.Bold = true;
+            worksheet.Cell(row, 8).Value = group?.Provider.ToString() ?? "";
+            worksheet.Cell(row, 8).Style.Fill.BackgroundColor = providerColor;
+            worksheet.Cell(row, 8).Style.Font.FontColor = XLColor.White;
+            worksheet.Cell(row, 8).Style.Font.Bold = true;
 
-            worksheet.Cell(row, 8).Value = group?.Name ?? "";
-            worksheet.Cell(row, 9).Value = line.Details ?? "";
+            worksheet.Cell(row, 9).Value = group?.Name ?? "";
+            worksheet.Cell(row, 10).Value = line.Details ?? "";
 
-            for (int col = 1; col <= 9; col++)
+            for (int col = 1; col <= 10; col++)
             {
                 worksheet.Cell(row, col).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 worksheet.Cell(row, col).Style.Border.OutsideBorderColor = XLColor.Gray;
@@ -109,7 +111,7 @@ public class ExportService
 
         worksheet.Columns().AdjustToContents();
         
-        for (int col = 1; col <= 9; col++)
+        for (int col = 1; col <= 10; col++)
         {
             worksheet.Column(col).Width = worksheet.Column(col).Width > 30 ? 30 : worksheet.Column(col).Width;
         }

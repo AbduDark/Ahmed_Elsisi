@@ -39,6 +39,9 @@ public class PhoneLine : INotifyPropertyChanged
     [MaxLength(500)]
     public string? Details { get; set; }
 
+    [MaxLength(100)]
+    public string? LineSystem { get; set; }
+
     private int _confirmationLevel = 0;
     public int ConfirmationLevel
     {

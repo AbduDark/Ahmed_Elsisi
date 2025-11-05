@@ -30,6 +30,7 @@ public class ImportService
         public int? InternalIdColumn { get; set; }
         public int? HasCashWalletColumn { get; set; }
         public int? CashWalletNumberColumn { get; set; }
+        public int? LineSystemColumn { get; set; }
     }
 
     public ImportResult ImportFromExcel(string filePath, int groupId)
@@ -198,6 +199,12 @@ public class ImportService
                         cashWalletNumber = worksheet.Cell(row, settings.CashWalletNumberColumn.Value).GetString().Trim();
                     }
 
+                    var lineSystem = "";
+                    if (settings.LineSystemColumn.HasValue)
+                    {
+                        lineSystem = worksheet.Cell(row, settings.LineSystemColumn.Value).GetString().Trim();
+                    }
+
                     var phoneLine = new PhoneLine
                     {
                         Name = name,
@@ -206,6 +213,7 @@ public class ImportService
                         InternalId = internalId,
                         HasCashWallet = hasCashWallet,
                         CashWalletNumber = !string.IsNullOrWhiteSpace(cashWalletNumber) ? cashWalletNumber : null,
+                        LineSystem = !string.IsNullOrWhiteSpace(lineSystem) ? lineSystem : null,
                         GroupId = groupId
                     };
 

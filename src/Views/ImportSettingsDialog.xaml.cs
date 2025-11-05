@@ -15,6 +15,7 @@ public partial class ImportSettingsDialog : Window
         public int? InternalIdColumn { get; set; }
         public int? HasCashWalletColumn { get; set; }
         public int? CashWalletNumberColumn { get; set; }
+        public int? LineSystemColumn { get; set; }
     }
 
     public ImportSettings? Settings { get; private set; }
@@ -65,6 +66,7 @@ public partial class ImportSettingsDialog : Window
             InternalIdColumnComboBox.ItemsSource = columns;
             HasCashWalletColumnComboBox.ItemsSource = columns;
             CashWalletNumberColumnComboBox.ItemsSource = columns;
+            LineSystemColumnComboBox.ItemsSource = columns;
 
             NameColumnComboBox.SelectedIndex = 0;
             if (columns.Count > 1) NationalIdColumnComboBox.SelectedIndex = 1;
@@ -94,6 +96,11 @@ public partial class ImportSettingsDialog : Window
         if (CashWalletNumberColumnCheckBox != null && CashWalletNumberColumnComboBox != null)
         {
             CashWalletNumberColumnComboBox.IsEnabled = CashWalletNumberColumnCheckBox.IsChecked == true;
+        }
+
+        if (LineSystemColumnCheckBox != null && LineSystemColumnComboBox != null)
+        {
+            LineSystemColumnComboBox.IsEnabled = LineSystemColumnCheckBox.IsChecked == true;
         }
     }
 
@@ -129,6 +136,13 @@ public partial class ImportSettingsDialog : Window
             return;
         }
 
+        if (LineSystemColumnCheckBox.IsChecked == true && LineSystemColumnComboBox.SelectedIndex == -1)
+        {
+            MessageBox.Show("يجب تحديد عمود نظام الخط أو إلغاء تفعيل الخيار", "تحذير",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         Settings = new ImportSettings
         {
             HasHeader = HasHeaderCheckBox.IsChecked == true,
@@ -143,6 +157,9 @@ public partial class ImportSettingsDialog : Window
                 : null,
             CashWalletNumberColumn = CashWalletNumberColumnCheckBox.IsChecked == true 
                 ? CashWalletNumberColumnComboBox.SelectedIndex + 1 
+                : null,
+            LineSystemColumn = LineSystemColumnCheckBox.IsChecked == true 
+                ? LineSystemColumnComboBox.SelectedIndex + 1 
                 : null
         };
 

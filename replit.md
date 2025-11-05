@@ -16,7 +16,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Core Business Logic
 - **Group Management**: Supports up to 50 lines per group across four telecom providers. Lines have states (Active, Suspended, Blocked, With/Without Cash Wallet). Groups track responsible employee, customer, and expected delivery date. A "Business Group" type includes confirmation tracking (0-3 levels per line).
-- **Line Entity**: Stores person name, national ID (14 digits), phone number, internal ID, cash wallet flag (with optional wallet number), and details field.
+- **Line Entity**: Stores person name, national ID (14 digits), phone number, internal ID, cash wallet flag (with optional wallet number), line system field, and details field.
 - **Automatic Renewal**: Tracks 60-day renewal cycles for cash wallet groups with 7-day and expiration day alerts.
 - **Delivery Tracking**: Manages customer assignment and expected delivery dates with 3-day pre-delivery and overdue alerts.
 - **Backup & Restore**: Manual and automatic (24-hour) backup system with restore functionality and cleanup of old backups.
@@ -59,11 +59,21 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (November 2025)
 
-### Bug Fixes (Latest)
+### New Features (Latest - November 5, 2025)
+- **Line System Field**: Added new "LineSystem" field to PhoneLine model to track line system information
+  - Added LineSystem property to PhoneLine model (max 100 characters)
+  - Added "نظام الخط" column in GroupDetailsWindow DataGrid
+  - Added "نظام الخط" input field in add/edit line form
+  - Added LineSystem support in Excel import (ImportSettingsDialog and ImportService)
+  - Added LineSystem column in Excel export (ExportService)
+  - Field is optional and can be left empty
+
+### Bug Fixes
 - **Line Deletion Fix**: Fixed issue where phone lines were not being deleted properly. Added ChangeTracker.Clear() before ExecuteDelete in GroupService.DeleteLine() to ensure clean deletion without tracking conflicts.
 - **NullReferenceException Fix**: Fixed crash when deleting groups or lines by storing group name before LoadGroups() call.
+- **Build Fix**: Fixed compilation error in ExportService.cs (exportLines variable) and SearchWindow.xaml.cs (nullability issue)
 
-### New Features (Latest)
+### Previous Features
 - **Custom Excel Import Settings Dialog**:
   - Created ImportSettingsDialog.xaml with comprehensive column selection interface
   - Users can now customize which columns contain specific data using checkboxes
