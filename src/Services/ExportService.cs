@@ -269,7 +269,7 @@ public class ExportService
 
         var lines = _db.PhoneLines.ToList();
         int row = 2;
-        foreach (var line in exportLines)
+        foreach (var line in lines)
         {
             var group = _db.LineGroups.Find(line.GroupId);
             var providerColor = GetProviderColor(group?.Provider ?? TelecomProvider.Vodafone);

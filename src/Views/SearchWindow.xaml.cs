@@ -109,6 +109,7 @@ public partial class SearchWindow : Window
                     .Where(r => r.Type == "خط")
                     .Select(r => _context.PhoneLines.FirstOrDefault(l => l.PhoneNumber == r.PhoneNumber))
                     .Where(l => l != null)
+                    .Cast<PhoneLine>()
                     .ToList();
 
                 if (lines.Any())
