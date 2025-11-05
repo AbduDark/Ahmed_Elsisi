@@ -43,19 +43,19 @@ Preferred communication style: Simple, everyday language.
 
 ### Platform Requirements
 - **Windows Operating System**: Windows 10 or newer.
-- **.NET Framework/Runtime**: .NET 7.0 for WPF applications.
+- **.NET Framework/Runtime**: .NET 8.0 for WPF applications.
 
 ### Data Storage
 - **Database**: SQLite (local `linemanagement.db` file).
-- **ORM**: Entity Framework Core 7.0.
+- **ORM**: Entity Framework Core 8.0.
 - **Entities**: LineGroup, PhoneLine, Alert.
 
 ### Third-Party Packages
-- **Microsoft.EntityFrameworkCore.Sqlite (7.0.20)**: ORM for SQLite.
+- **Microsoft.EntityFrameworkCore.Sqlite (8.0.0)**: ORM for SQLite.
 - **Newtonsoft.Json (13.0.3)**: JSON serialization.
-- **MaterialDesignThemes (4.9.0)**: Material Design UI components.
-- **ClosedXML (0.102.1)**: Excel import/export functionality.
-- **QuestPDF (2024.3.0)**: PDF report generation.
+- **MaterialDesignThemes (5.0.0)**: Material Design UI components.
+- **ClosedXML (0.104.2)**: Excel import/export functionality.
+- **QuestPDF (2025.1.0)**: PDF report generation.
 
 ## Recent Changes (November 2025)
 
