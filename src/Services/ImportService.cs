@@ -116,7 +116,6 @@ public class ImportService
 
     private ColumnMapping? DetectColumns(IXLWorksheet worksheet)
     {
-        var firstRow = 1;
         var lastColumn = worksheet.LastColumnUsed()?.ColumnNumber() ?? 0;
 
         if (lastColumn < 3)
@@ -165,17 +164,18 @@ public class ImportService
 
         for (int col = 1; col <= lastColumn; col++)
         {
-            var header = headerRow.Cell(col).GetString().ToLower().Trim();
+            var header = headerRow.Cell(col).GetString().ToLower().Trim()
+                .Replace(" ", "").Replace("-", "").Replace("_", "");
             
-            if (header.Contains("اسم") || header.Contains("name") || header.Contains("الاسم"))
+            if (IsNameHeader(header))
             {
                 mapping.NameColumn = col;
             }
-            else if (header.Contains("قومي") || header.Contains("national") || header.Contains("رقم قومي") || header.Contains("الرقم القومي"))
+            else if (IsNationalIdHeader(header))
             {
                 mapping.NationalIdColumn = col;
             }
-            else if (header.Contains("رقم") && !header.Contains("قومي") || header.Contains("phone") || header.Contains("خط") || header.Contains("الرقم"))
+            else if (IsPhoneNumberHeader(header))
             {
                 mapping.PhoneNumberColumn = col;
             }
@@ -187,6 +187,39 @@ public class ImportService
         }
 
         return null;
+    }
+
+    private bool IsNameHeader(string header)
+    {
+        var nameKeywords = new[] { 
+            "اسم", "name", "الاسم", "fullname", "person", "شخص", "صاحب", "owner" 
+        };
+        return nameKeywords.Any(keyword => header.Contains(keyword));
+    }
+
+    private bool IsNationalIdHeader(string header)
+    {
+        var nationalIdKeywords = new[] { 
+            "قومي", "national", "رقمقومي", "الرقمالقومي", "nationalid", "id", "ssn", "socialsecurity",
+            "بطاقة", "هوية", "identity", "cardnumber", "idcard"
+        };
+        return nationalIdKeywords.Any(keyword => header.Contains(keyword)) && 
+               !header.Contains("phone") && !header.Contains("mobile") && !header.Contains("tel");
+    }
+
+    private bool IsPhoneNumberHeader(string header)
+    {
+        var phoneKeywords = new[] { 
+            "رقم", "phone", "خط", "الرقم", "mobile", "cell", "telephone", "tel", "contact",
+            "موبايل", "جوال", "هاتف", "number"
+        };
+        
+        var hasPhoneKeyword = phoneKeywords.Any(keyword => header.Contains(keyword));
+        var isNotNationalId = !header.Contains("قومي") && !header.Contains("national") && 
+                              !header.Contains("ssn") && !header.Contains("identity") && 
+                              !header.Contains("هوية") && !header.Contains("بطاقة");
+        
+        return hasPhoneKeyword && isNotNationalId;
     }
 
     private ColumnMapping? DetectColumnsFromData(IXLWorksheet worksheet, int lastColumn)
