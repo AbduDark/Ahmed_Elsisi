@@ -43,9 +43,9 @@ public class ExportService
         };
     }
 
-    public void ExportLinesToExcel(string filePath, List<PhoneLine> lines = null)
+    public void ExportLinesToExcel(string filePath, List<PhoneLine>? lines = null)
     {
-        lines ??= _db.PhoneLines.ToList();
+        var exportLines = lines ?? _db.PhoneLines.ToList();
 
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add("الخطوط");
@@ -70,7 +70,7 @@ public class ExportService
         worksheet.Cell(1, 9).Value = "التفاصيل";
 
         int row = 2;
-        foreach (var line in lines)
+        foreach (var line in exportLines)
         {
             var group = _db.LineGroups.Find(line.GroupId);
             var providerColor = GetProviderColor(group?.Provider ?? TelecomProvider.Vodafone);
@@ -117,9 +117,9 @@ public class ExportService
         workbook.SaveAs(filePath);
     }
 
-    public void ExportGroupsToExcel(string filePath, List<LineGroup> groups = null)
+    public void ExportGroupsToExcel(string filePath, List<LineGroup>? groups = null)
     {
-        groups ??= _db.LineGroups.ToList();
+        var exportGroups = groups ?? _db.LineGroups.ToList();
 
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add("المجموعات");
@@ -143,7 +143,7 @@ public class ExportService
         worksheet.Cell(1, 8).Value = "التفاصيل الإضافية";
 
         int row = 2;
-        foreach (var group in groups)
+        foreach (var group in exportGroups)
         {
             var providerColor = GetProviderColor(group.Provider);
             var lineCount = _db.PhoneLines.Count(l => l.GroupId == group.Id);
@@ -269,7 +269,7 @@ public class ExportService
 
         var lines = _db.PhoneLines.ToList();
         int row = 2;
-        foreach (var line in lines)
+        foreach (var line in exportLines)
         {
             var group = _db.LineGroups.Find(line.GroupId);
             var providerColor = GetProviderColor(group?.Provider ?? TelecomProvider.Vodafone);

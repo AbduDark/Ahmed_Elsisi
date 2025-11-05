@@ -166,7 +166,7 @@ public partial class GroupDetailsWindow : Window
 
             if (saveDialog.ShowDialog() == true)
             {
-                var lines = _viewModel.Lines.ToList();
+                var lines = _viewModel.Lines.Where(l => l != null).ToList()!;
                 _exportService.ExportLinesToExcel(saveDialog.FileName, lines);
                 MessageBox.Show("تم التصدير بنجاح!", "نجح", MessageBoxButton.OK, MessageBoxImage.Information);
             }
