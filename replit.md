@@ -21,6 +21,7 @@ Preferred communication style: Simple, everyday language.
 - **Delivery Tracking**: Manages customer assignment and expected delivery dates with 3-day pre-delivery and overdue alerts.
 - **Backup & Restore**: Manual and automatic (24-hour) backup system with restore functionality and cleanup of old backups.
 - **Reporting**: Export functionality for lines and groups to Excel and PDF formats, including provider-specific branding and statistics.
+- **Excel Import**: Smart import from Excel files with intelligent column detection supporting Arabic/English headers (with or without headers). Auto-validates national IDs (14 digits) and phone numbers (11 digits starting with 01). Internal ID generated from row number.
 
 ### Data Architecture
 - **Relationships**: Groups can have many Lines (1:Many).
@@ -42,16 +43,33 @@ Preferred communication style: Simple, everyday language.
 
 ### Platform Requirements
 - **Windows Operating System**: Windows 10 or newer.
-- **.NET Framework/Runtime**: .NET 8.0 for WPF applications.
+- **.NET Framework/Runtime**: .NET 7.0 for WPF applications.
 
 ### Data Storage
 - **Database**: SQLite (local `linemanagement.db` file).
-- **ORM**: Entity Framework Core 8.0.
+- **ORM**: Entity Framework Core 7.0.
 - **Entities**: LineGroup, PhoneLine, Alert.
 
 ### Third-Party Packages
-- **Microsoft.EntityFrameworkCore.Sqlite (8.0.0)**: ORM for SQLite.
+- **Microsoft.EntityFrameworkCore.Sqlite (7.0.20)**: ORM for SQLite.
 - **Newtonsoft.Json (13.0.3)**: JSON serialization.
-- **MaterialDesignThemes (5.0.0)**: Material Design UI components.
-- **ClosedXML (0.104.2)**: Excel export functionality.
-- **QuestPDF (2025.1.0)**: PDF report generation.
+- **MaterialDesignThemes (4.9.0)**: Material Design UI components.
+- **ClosedXML (0.102.1)**: Excel import/export functionality.
+- **QuestPDF (2024.3.0)**: PDF report generation.
+
+## Recent Changes (November 2025)
+
+### Bug Fixes
+- **NullReferenceException Fix**: Fixed crash when deleting groups or lines by storing group name before LoadGroups() call.
+
+### New Features
+- **Excel Import System**: 
+  - Added ImportService with smart column detection algorithm
+  - Supports files with or without headers
+  - Detects Arabic and English column names (اسم, Name, الرقم القومي, National ID, رقم, Phone, Mobile, etc.)
+  - Auto-validates national IDs (14 digits) and phone numbers (11 digits starting with 01)
+  - Normalizes phone numbers (removes spaces, dashes, +2 prefix)
+  - Generates Internal ID from row number
+  - Provides detailed import results with error reporting
+  - Added "📥 استيراد من Excel" button in GroupDetailsWindow
+  - GroupService.ImportLines() validates max lines limit before importing
