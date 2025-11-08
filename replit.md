@@ -15,7 +15,7 @@ Preferred communication style: Simple, everyday language.
 - **UI Design**: Color-coded interfaces per telecom provider (Vodafone=Red, Etisalat=Green, WE=Purple, Orange=Orange). Utilizes MaterialDesignThemes for UI components and supports light/dark modes.
 
 ### Core Business Logic
-- **Group Management**: Supports up to 50 lines per group across four telecom providers. Lines have states (Active, Suspended, Blocked, With/Without Cash Wallet). Groups track responsible employee, customer, and expected delivery date. A "Business Group" type includes confirmation tracking (0-3 levels per line).
+- **Group Management**: Supports unlimited lines per group across four telecom providers. Lines have states (Active, Suspended, Blocked, With/Without Cash Wallet). Groups track responsible employee, customer, and expected delivery date. A "Business Group" type includes confirmation tracking (0-3 levels per line).
 - **Line Entity**: Stores person name, national ID (14 digits), phone number, internal ID, cash wallet flag (with optional wallet number), line system field, and details field.
 - **Automatic Renewal**: Tracks 60-day renewal cycles for cash wallet groups with 7-day and expiration day alerts.
 - **Delivery Tracking**: Manages customer assignment and expected delivery dates with 3-day pre-delivery and overdue alerts.
@@ -79,7 +79,23 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (November 2025)
 
-### Latest Features (November 5, 2025 - Flexible Excel Import)
+### Latest Features (November 8, 2025 - Unlimited Lines Per Group)
+- **♾️ إزالة حد الخطوط من المجموعات**: المجموعات الآن تستوعب عدد غير محدود من الخطوط!
+  - **إزالة القيد**: تمت إزالة الحد الأقصى للخطوط (50 خط) من المجموعات
+  - **مرونة كاملة**: يمكنك الآن إضافة أي عدد من الخطوط لأي مجموعة
+  - **استيراد غير محدود**: لم يعد هناك قيود على عدد الخطوط عند الاستيراد من Excel
+  - **واجهة محسّنة**: تحديث عرض عدد الخطوط بدون إظهار حد أقصى
+  
+- **🔧 التحديثات التقنية**:
+  - إزالة خاصية `MaxLines` من نموذج `LineGroup`
+  - إزالة خاصية `CanAddMoreLines` من نموذج `LineGroup`
+  - إزالة فحص الحد الأقصى من `GroupService.AddLineToGroup()`
+  - إزالة فحص الحد الأقصى من `GroupService.ImportLines()`
+  - تحديث `GroupDetailsViewModel` لإزالة الفحص عند إضافة خط جديد
+  - تحديث `SearchViewModel` لعرض عدد الخطوط بدون حد أقصى
+  - البناء ينجح بدون أخطاء أو تحذيرات (0 Warnings, 0 Errors)
+
+### Previous Features (November 5, 2025 - Flexible Excel Import)
 - **✨ جميع أعمدة الاستيراد أصبحت اختيارية**: نظام استيراد مرن وشامل بدون قيود!
   - **لا توجد أعمدة إلزامية**: يمكنك استيراد أي مجموعة من الأعمدة التي تريدها
   - **استيراد الصفوف الناقصة**: إذا كان صف لا يحتوي على بعض البيانات (مثل الرقم القومي)، يتم استيراده عادياً ويُترك الحقل فارغاً

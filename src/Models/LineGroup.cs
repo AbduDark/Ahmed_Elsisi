@@ -40,16 +40,12 @@ public class LineGroup
 
     public bool IsBusinessGroup { get; set; } = false;
 
-    public int MaxLines { get; set; } = 50;
-
     public List<PhoneLine> Lines { get; set; } = new();
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
     public int GetLineCount => Lines?.Count ?? 0;
-
-    public bool CanAddMoreLines => GetLineCount < MaxLines;
 
     public int GetRemainingDaysForRenewal
     {

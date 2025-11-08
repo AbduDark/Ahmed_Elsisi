@@ -216,7 +216,7 @@ public class SearchViewModel : BaseViewModel
                     Provider = group.Provider.GetArabicName(),
                     ProviderColor = group.Provider.GetColorHex(),
                     LineCount = group.GetLineCount,
-                    Details = $"عدد الخطوط: {group.GetLineCount} من {group.MaxLines}"
+                    Details = $"عدد الخطوط: {group.GetLineCount}"
                 });
 
                 // إضافة كل الخطوط في المجموعة

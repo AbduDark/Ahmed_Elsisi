@@ -74,7 +74,7 @@ public class GroupService
     public void AddLineToGroup(int groupId, PhoneLine line)
     {
         var group = GetGroupById(groupId);
-        if (group != null && group.CanAddMoreLines)
+        if (group != null)
         {
             line.GroupId = groupId;
             line.CreatedAt = DateTime.Now;
@@ -84,7 +84,7 @@ public class GroupService
         }
         else
         {
-            throw new InvalidOperationException("المجموعة وصلت للحد الأقصى من الخطوط (50 خط)");
+            throw new InvalidOperationException("المجموعة غير موجودة");
         }
     }
 
@@ -140,15 +140,6 @@ public class GroupService
         if (group == null)
         {
             throw new InvalidOperationException("المجموعة غير موجودة");
-        }
-
-        var currentLineCount = group.Lines.Count;
-        var newLineCount = lines.Count;
-        var totalCount = currentLineCount + newLineCount;
-
-        if (totalCount > group.MaxLines)
-        {
-            throw new InvalidOperationException($"لا يمكن استيراد {newLineCount} خط. المجموعة تحتوي على {currentLineCount} خط والحد الأقصى {group.MaxLines} خط.");
         }
 
         foreach (var line in lines)
