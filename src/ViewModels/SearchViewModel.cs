@@ -13,6 +13,9 @@ public class SearchViewModel : BaseViewModel
     private readonly DatabaseContext _context;
     private string _searchQuery = string.Empty;
     private string _searchType = "الكل";
+    private string _selectedProvider = "الكل";
+    private string _selectedStatus = "الكل";
+    private string _selectedCashWallet = "الكل";
 
     public string SearchQuery
     {
@@ -30,6 +33,36 @@ public class SearchViewModel : BaseViewModel
         set
         {
             SetProperty(ref _searchType, value);
+            SearchCommand.Execute(null);
+        }
+    }
+
+    public string SelectedProvider
+    {
+        get => _selectedProvider;
+        set
+        {
+            SetProperty(ref _selectedProvider, value);
+            SearchCommand.Execute(null);
+        }
+    }
+
+    public string SelectedStatus
+    {
+        get => _selectedStatus;
+        set
+        {
+            SetProperty(ref _selectedStatus, value);
+            SearchCommand.Execute(null);
+        }
+    }
+
+    public string SelectedCashWallet
+    {
+        get => _selectedCashWallet;
+        set
+        {
+            SetProperty(ref _selectedCashWallet, value);
             SearchCommand.Execute(null);
         }
     }
@@ -168,17 +201,62 @@ public class SearchViewModel : BaseViewModel
 
         var query = SearchQuery.Trim().ToLower();
 
-        // البحث في الخطوط
-        var lines = _context.PhoneLines
+        // البحث في الخطوط مع إصلاح منطق الشروط
+        var linesQuery = _context.PhoneLines
             .Include(l => l.Group)
-            .Where(l =>
-                (SearchType == "الكل" || SearchType == "رقم قومي") && l.NationalId.ToLower().Contains(query) ||
-                (SearchType == "الكل" || SearchType == "اسم الشخص") && l.Name.ToLower().Contains(query) ||
-                (SearchType == "الكل" || SearchType == "رقم الخط") && l.PhoneNumber.ToLower().Contains(query) ||
-                (SearchType == "الكل" || SearchType == "رقم داخلي") && l.InternalId.ToLower().Contains(query) ||
-                (SearchType == "الكل" || SearchType == "محفظة كاش") && (l.CashWalletNumber ?? "").ToLower().Contains(query)
-            )
-            .ToList();
+            .AsQueryable();
+
+        // تطبيق فلتر البحث النصي
+        linesQuery = linesQuery.Where(l =>
+            ((SearchType == "الكل" || SearchType == "رقم قومي") && l.NationalId.ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "اسم الشخص") && l.Name.ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "رقم الخط") && l.PhoneNumber.ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "رقم داخلي") && l.InternalId.ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "محفظة كاش") && (l.CashWalletNumber ?? "").ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "نظام الخط") && (l.LineSystem ?? "").ToLower().Contains(query)) ||
+            ((SearchType == "الكل" || SearchType == "التفاصيل") && (l.Details ?? "").ToLower().Contains(query))
+        );
+
+        // تطبيق فلتر الشركة
+        if (SelectedProvider != "الكل")
+        {
+            TelecomProvider provider = SelectedProvider switch
+            {
+                "فودافون" => TelecomProvider.Vodafone,
+                "اتصالات" => TelecomProvider.Etisalat,
+                "وي" => TelecomProvider.We,
+                "أورانج" => TelecomProvider.Orange,
+                _ => TelecomProvider.Vodafone
+            };
+            linesQuery = linesQuery.Where(l => l.Group != null && l.Group.Provider == provider);
+        }
+
+        // تطبيق فلتر حالة المجموعة
+        if (SelectedStatus != "الكل")
+        {
+            GroupStatus status = SelectedStatus switch
+            {
+                "نشط" => GroupStatus.Active,
+                "موقوف" => GroupStatus.Suspended,
+                "محظور" => GroupStatus.Barred,
+                "بدون محفظة" => GroupStatus.Cashless,
+                "بمحفظة" => GroupStatus.CashWallet,
+                _ => GroupStatus.Active
+            };
+            linesQuery = linesQuery.Where(l => l.Group != null && l.Group.Status == status);
+        }
+
+        // تطبيق فلتر محفظة الكاش
+        if (SelectedCashWallet == "نعم")
+        {
+            linesQuery = linesQuery.Where(l => l.HasCashWallet);
+        }
+        else if (SelectedCashWallet == "لا")
+        {
+            linesQuery = linesQuery.Where(l => !l.HasCashWallet);
+        }
+
+        var lines = linesQuery.ToList();
 
         foreach (var line in lines)
         {
@@ -199,12 +277,60 @@ public class SearchViewModel : BaseViewModel
         }
 
         // البحث في المجموعات
-        if (SearchType == "الكل" || SearchType == "اسم المجموعة")
+        if (SearchType == "الكل" || SearchType == "اسم المجموعة" || SearchType == "موظف مسؤول" || SearchType == "عميل" || SearchType == "تفاصيل إضافية")
         {
-            var groups = _context.LineGroups
+            var groupsQuery = _context.LineGroups
                 .Include(g => g.Lines)
-                .Where(g => g.Name.ToLower().Contains(query))
-                .ToList();
+                .AsQueryable();
+
+            // تطبيق فلتر البحث النصي
+            groupsQuery = groupsQuery.Where(g => 
+                ((SearchType == "الكل" || SearchType == "اسم المجموعة") && g.Name.ToLower().Contains(query)) ||
+                ((SearchType == "الكل" || SearchType == "موظف مسؤول") && (g.AssignedToEmployee ?? "").ToLower().Contains(query)) ||
+                ((SearchType == "الكل" || SearchType == "عميل") && (g.AssignedCustomer ?? "").ToLower().Contains(query)) ||
+                ((SearchType == "الكل" || SearchType == "تفاصيل إضافية") && (g.AdditionalDetails ?? "").ToLower().Contains(query))
+            );
+
+            // تطبيق فلتر الشركة
+            if (SelectedProvider != "الكل")
+            {
+                TelecomProvider provider = SelectedProvider switch
+                {
+                    "فودافون" => TelecomProvider.Vodafone,
+                    "اتصالات" => TelecomProvider.Etisalat,
+                    "وي" => TelecomProvider.We,
+                    "أورانج" => TelecomProvider.Orange,
+                    _ => TelecomProvider.Vodafone
+                };
+                groupsQuery = groupsQuery.Where(g => g.Provider == provider);
+            }
+
+            // تطبيق فلتر حالة المجموعة
+            if (SelectedStatus != "الكل")
+            {
+                GroupStatus status = SelectedStatus switch
+                {
+                    "نشط" => GroupStatus.Active,
+                    "موقوف" => GroupStatus.Suspended,
+                    "محظور" => GroupStatus.Barred,
+                    "بدون محفظة" => GroupStatus.Cashless,
+                    "بمحفظة" => GroupStatus.CashWallet,
+                    _ => GroupStatus.Active
+                };
+                groupsQuery = groupsQuery.Where(g => g.Status == status);
+            }
+
+            // تطبيق فلتر محفظة الكاش على المجموعات
+            if (SelectedCashWallet == "نعم")
+            {
+                groupsQuery = groupsQuery.Where(g => g.RequiresCashWallet);
+            }
+            else if (SelectedCashWallet == "لا")
+            {
+                groupsQuery = groupsQuery.Where(g => !g.RequiresCashWallet);
+            }
+
+            var groups = groupsQuery.ToList();
 
             foreach (var group in groups)
             {
@@ -219,9 +345,28 @@ public class SearchViewModel : BaseViewModel
                     Details = $"عدد الخطوط: {group.GetLineCount}"
                 });
 
-                // إضافة كل الخطوط في المجموعة
+                // إضافة خطوط المجموعة مع تطبيق جميع الفلاتر
                 foreach (var line in group.Lines)
                 {
+                    // تطبيق فلتر البحث النصي على خطوط المجموعة
+                    bool matchesTextSearch = 
+                        ((SearchType == "الكل" || SearchType == "رقم قومي") && line.NationalId.ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "اسم الشخص") && line.Name.ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "رقم الخط") && line.PhoneNumber.ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "رقم داخلي") && line.InternalId.ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "محفظة كاش") && (line.CashWalletNumber ?? "").ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "نظام الخط") && (line.LineSystem ?? "").ToLower().Contains(query)) ||
+                        ((SearchType == "الكل" || SearchType == "التفاصيل") && (line.Details ?? "").ToLower().Contains(query));
+                    
+                    if (!matchesTextSearch)
+                        continue;
+                    
+                    // تطبيق فلتر محفظة الكاش على خطوط المجموعة أيضاً
+                    if (SelectedCashWallet == "نعم" && !line.HasCashWallet)
+                        continue;
+                    if (SelectedCashWallet == "لا" && line.HasCashWallet)
+                        continue;
+                    
                     SearchResults.Add(new SearchResult
                     {
                         Type = "خط (من المجموعة)",

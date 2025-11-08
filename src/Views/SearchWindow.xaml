@@ -38,55 +38,136 @@
                           Margin="0,0,0,20"/>
 
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- صف البحث الرئيسي -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    <ComboBox Grid.Column="0"
-                              SelectedItem="{Binding SearchType}"
-                              FontSize="16"
-                              Padding="10"
-                              Margin="0,0,10,0">
-                        <ComboBoxItem Content="الكل" IsSelected="True"/>
-                        <ComboBoxItem Content="رقم قومي"/>
-                        <ComboBoxItem Content="اسم الشخص"/>
-                        <ComboBoxItem Content="رقم الخط"/>
-                        <ComboBoxItem Content="رقم داخلي"/>
-                        <ComboBoxItem Content="محفظة كاش"/>
-                        <ComboBoxItem Content="اسم المجموعة"/>
-                    </ComboBox>
+                        <ComboBox Grid.Column="0"
+                                  SelectedItem="{Binding SearchType}"
+                                  FontSize="16"
+                                  Padding="10"
+                                  Margin="0,0,10,0">
+                            <ComboBoxItem Content="الكل" IsSelected="True"/>
+                            <ComboBoxItem Content="رقم قومي"/>
+                            <ComboBoxItem Content="اسم الشخص"/>
+                            <ComboBoxItem Content="رقم الخط"/>
+                            <ComboBoxItem Content="رقم داخلي"/>
+                            <ComboBoxItem Content="محفظة كاش"/>
+                            <ComboBoxItem Content="نظام الخط"/>
+                            <ComboBoxItem Content="التفاصيل"/>
+                            <ComboBoxItem Content="اسم المجموعة"/>
+                            <ComboBoxItem Content="موظف مسؤول"/>
+                            <ComboBoxItem Content="عميل"/>
+                            <ComboBoxItem Content="تفاصيل إضافية"/>
+                        </ComboBox>
 
-                    <TextBox Grid.Column="1"
-                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
-                             FontSize="18"
-                             Padding="15,10"
-                             VerticalContentAlignment="Center">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="BorderBrush" Value="#BDBDBD"/>
-                                <Setter Property="BorderThickness" Value="2"/>
-                                <Style.Triggers>
-                                    <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="#2196F3"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                        <TextBox Grid.Column="1"
+                                 Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                                 FontSize="18"
+                                 Padding="15,10"
+                                 VerticalContentAlignment="Center">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="BorderBrush" Value="#BDBDBD"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="BorderBrush" Value="#2196F3"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
 
-                    <Button Grid.Column="2"
-                            Content="مسح"
-                            Command="{Binding ClearCommand}"
-                            FontSize="16"
-                            FontWeight="Bold"
-                            Padding="20,10"
-                            Margin="10,0,0,0"
-                            Background="#F44336"
-                            Foreground="White"
-                            BorderThickness="0"
-                            Cursor="Hand"/>
+                        <Button Grid.Column="2"
+                                Content="مسح"
+                                Command="{Binding ClearCommand}"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Padding="20,10"
+                                Margin="10,0,0,0"
+                                Background="#F44336"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Cursor="Hand"/>
+                    </Grid>
+                    
+                    <!-- صف الفلاتر المتقدمة -->
+                    <Grid Grid.Row="1" Margin="0,15,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- فلتر الشركة -->
+                        <TextBlock Grid.Column="0" 
+                                   Text="الشركة:" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox Grid.Column="1"
+                                  SelectedItem="{Binding SelectedProvider}"
+                                  FontSize="14"
+                                  Padding="8">
+                            <ComboBoxItem Content="الكل" IsSelected="True"/>
+                            <ComboBoxItem Content="فودافون"/>
+                            <ComboBoxItem Content="اتصالات"/>
+                            <ComboBoxItem Content="وي"/>
+                            <ComboBoxItem Content="أورانج"/>
+                        </ComboBox>
+                        
+                        <!-- فلتر الحالة -->
+                        <TextBlock Grid.Column="3" 
+                                   Text="الحالة:" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox Grid.Column="4"
+                                  SelectedItem="{Binding SelectedStatus}"
+                                  FontSize="14"
+                                  Padding="8">
+                            <ComboBoxItem Content="الكل" IsSelected="True"/>
+                            <ComboBoxItem Content="نشط"/>
+                            <ComboBoxItem Content="موقوف"/>
+                            <ComboBoxItem Content="محظور"/>
+                            <ComboBoxItem Content="بدون محفظة"/>
+                            <ComboBoxItem Content="بمحفظة"/>
+                        </ComboBox>
+                        
+                        <!-- فلتر محفظة الكاش -->
+                        <TextBlock Grid.Column="6" 
+                                   Text="محفظة كاش:" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <ComboBox Grid.Column="7"
+                                  SelectedItem="{Binding SelectedCashWallet}"
+                                  FontSize="14"
+                                  Padding="8">
+                            <ComboBoxItem Content="الكل" IsSelected="True"/>
+                            <ComboBoxItem Content="نعم"/>
+                            <ComboBoxItem Content="لا"/>
+                        </ComboBox>
+                    </Grid>
                 </Grid>
 
                 <TextBlock Text="{Binding SearchResults.Count, StringFormat='عدد النتائج: {0}'}"
