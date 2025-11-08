@@ -1,40 +1,37 @@
 # Line Management System for Telecom Providers
 
 ## Overview
-This project is a Windows desktop application (WPF) designed to manage mobile phone lines for Egyptian telecom providers (Vodafone, Etisalat, WE, Orange). Its primary purpose is to organize groups of lines, track automatic renewals, manage customer deliveries, and support barcode scanning for efficient data entry. The system aims to streamline line management operations for telecom agents.
+This project is a Windows desktop application (WPF) designed to manage mobile phone lines for Egyptian telecom providers (Vodafone, Etisalat, WE, Orange). Its primary purpose is to organize groups of lines, track automatic renewals, manage customer deliveries, and support barcode scanning for efficient data entry. The system aims to streamline line management operations for telecom agents, offering features like comprehensive search, flexible Excel import/export, and robust data management.
 
 ## User Preferences
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend
+### UI/UX Decisions
 - **Framework**: WPF (.NET desktop UI framework)
-- **Platform**: Windows-only (Windows 10 or newer)
 - **Language**: C# with XAML
 - **UI Design**: Color-coded interfaces per telecom provider (Vodafone=Red, Etisalat=Green, WE=Purple, Orange=Orange). Utilizes MaterialDesignThemes for UI components and supports light/dark modes.
+- **Input Methods**: Optimized data entry with auto-field navigation and auto-save on Enter key press.
 
-### Core Business Logic
-- **Group Management**: Supports unlimited lines per group across four telecom providers. Lines have states (Active, Suspended, Blocked, With/Without Cash Wallet). Groups track responsible employee, customer, and expected delivery date. A "Business Group" type includes confirmation tracking (0-3 levels per line).
-- **Line Entity**: Stores person name, national ID (14 digits), phone number, internal ID, cash wallet flag (with optional wallet number), line system field, and details field.
-- **Automatic Renewal**: Tracks 60-day renewal cycles for cash wallet groups with 7-day and expiration day alerts.
-- **Delivery Tracking**: Manages customer assignment and expected delivery dates with 3-day pre-delivery and overdue alerts.
-- **Backup & Restore**: Manual and automatic (24-hour) backup system with restore functionality and cleanup of old backups.
-- **Reporting**: Export functionality for lines and groups to Excel and PDF formats, including provider-specific branding and statistics.
-- **Excel Import**: Smart import from Excel files with intelligent column detection supporting Arabic/English headers (with or without headers). Auto-validates national IDs (14 digits) and phone numbers (11 digits starting with 01). Internal ID generated from row number.
+### Technical Implementations
+- **Core Business Logic**:
+    - **Group Management**: Supports unlimited lines per group across four telecom providers. Lines have states (Active, Suspended, Blocked, With/Without Cash Wallet). Groups track responsible employee, customer, and expected delivery date. A "Business Group" type includes confirmation tracking.
+    - **Line Entity**: Stores person name, national ID (14 digits), phone number, internal ID, cash wallet flag (with optional wallet number), line system field, and details field.
+    - **Automatic Renewal**: Tracks 60-day renewal cycles for cash wallet groups with 7-day and expiration day alerts.
+    - **Delivery Tracking**: Manages customer assignment and expected delivery dates with 3-day pre-delivery and overdue alerts.
+    - **Backup & Restore**: Manual and automatic (24-hour) backup system with restore functionality and cleanup of old backups.
+    - **Reporting**: Export functionality for lines and groups to Excel and PDF formats, including provider-specific branding and statistics.
+    - **Excel Import**: Smart import from Excel files with intelligent column detection supporting Arabic/English headers (with or without headers). Supports flexible column mapping and validates national IDs (14 digits) and phone numbers (11 digits starting with 01).
+    - **Search Functionality**: Comprehensive and advanced search filters for groups and lines, including real-time search, provider, status, and cash wallet filters. Search applies consistently to standalone lines, group-owned lines, and group rows themselves. Text predicates work across all search types (Name, National ID, Phone Number, Internal ID, Cash Wallet Number, Line System, Details).
+- **System Design**:
+    - **MVVM Pattern**: Utilizes Model-View-ViewModel for separation of concerns.
+    - **Theming**: Comprehensive light and dark mode support across all windows with dynamic resource binding.
+    - **Error Handling**: Improved delete confirmation and error messages.
 
-### Data Architecture
-- **Relationships**: Groups can have many Lines (1:Many).
-- **Validation**: National ID (14-digit format) and conditional wallet number.
-
-### Input Methods
-- **Hardware Integration**: Supports USB 1D barcode scanners (e.g., XB-2055) for rapid line data entry.
-- **Workflow**: Optimized data entry with auto-field navigation and auto-save on Enter key press.
-
-### System Design
-- **MVVM Pattern**: Utilizes Model-View-ViewModel for separation of concerns.
-- **Theming**: Comprehensive light and dark mode support across all windows with dynamic resource binding.
-- **Error Handling**: Improved delete confirmation and error messages.
+### Feature Specifications
+- **Line System Field**: Added "LineSystem" field to `PhoneLine` model for tracking system information, supported in forms, import, and export.
+- **Unlimited Lines**: Removed previous limits on the number of lines per group. Database migration handles removal of MaxLines column with proper SQLite foreign key constraint management (disable FK → rebuild table in transaction → re-enable FK).
 
 ## External Dependencies
 
@@ -56,171 +53,3 @@ Preferred communication style: Simple, everyday language.
 - **MaterialDesignThemes (5.0.0)**: Material Design UI components.
 - **ClosedXML (0.104.2)**: Excel import/export functionality.
 - **QuestPDF (2025.1.0)**: PDF report generation.
-
-## Replit Environment Status
-
-⚠️ **Important**: This is a Windows-only WPF application that **cannot run on Replit** (Linux environment). However, the project has been successfully imported and builds without errors.
-
-### Development Environment Setup
-- **.NET 8.0 SDK**: Installed and configured
-- **Build Status**: ✅ Builds successfully with 0 errors, 0 warnings
-- **NuGet Packages**: All dependencies restored successfully
-
-### Known Limitations on Replit
-- The application cannot be executed on Replit (requires Windows)
-- LSP errors appear for WPF types (expected on Linux, does not affect build)
-- No workflow/preview available (Windows desktop app)
-
-### To Run This Application
-1. Download the project from Replit
-2. Open on a Windows machine (Windows 10 or newer)
-3. Open in Visual Studio 2022 or VS Code
-4. Run with `dotnet run` or press F5 in Visual Studio
-
-## Recent Changes (November 2025)
-
-### Latest Updates (November 8, 2025 - Bug Fixes & Advanced Search Filters)
-- **🐛 إصلاح مشكلة MaxLines عند إضافة مجموعة جديدة**:
-  - حل مشكلة "NOT NULL constraint failed: LineGroups.MaxLines" 
-  - إضافة migration تلقائي لحذف عمود MaxLines من قاعدة البيانات
-  - يتم تشغيل Migration تلقائياً عند تشغيل التطبيق
-  - الآن يمكن إضافة مجموعات جديدة بدون أخطاء
-
-- **🔍 إصلاح منطق البحث الشامل**:
-  - إصلاح الأقواس في شروط البحث WHERE
-  - البحث الآن يعمل بشكل صحيح عند اختيار نوع بحث محدد
-  - المشكلة: عند اختيار "رقم قومي" أو "اسم الشخص" لم يكن البحث يعمل
-  - الحل: إضافة أقواس صحيحة حول كل شرط OR
-
-- **🎯 إضافة فلاتر متقدمة للبحث الشامل**:
-  - **فلتر الشركة**: فودافون، اتصالات، وي، أورانج، أو الكل
-  - **فلتر الحالة**: نشط، موقوف، محظور، بدون محفظة، بمحفظة، أو الكل
-  - **فلتر محفظة الكاش**: نعم، لا، أو الكل
-  - جميع الفلاتر تعمل مع البحث النصي بشكل تراكمي
-  - الفلاتر تطبق على الخطوط والمجموعات معاً
-
-- **📋 توسيع خيارات البحث النصي**:
-  - إضافة "نظام الخط" للبحث في حقل LineSystem
-  - إضافة "التفاصيل" للبحث في حقل Details للخطوط
-  - إضافة "موظف مسؤول" للبحث في AssignedToEmployee
-  - إضافة "عميل" للبحث في AssignedCustomer
-  - إضافة "تفاصيل إضافية" للبحث في AdditionalDetails للمجموعات
-
-- **🔧 التحديثات التقنية**:
-  - تعديل `DatabaseContext.EnsureCreated()` لإضافة migration لحذف MaxLines
-  - إضافة properties جديدة: `SelectedProvider`, `SelectedStatus`, `SelectedCashWallet` في SearchViewModel
-  - تحديث `PerformSearch()` مع منطق فلترة محسّن
-  - إضافة واجهة فلاتر متقدمة في SearchWindow.xaml
-  - البناء ينجح بدون أخطاء أو تحذيرات (0 Warnings, 0 Errors)
-
-### Previous Features (November 8, 2025 - Search Functionality)
-- **🔍 إضافة خاصية البحث في المجموعات والخطوط**: البحث السريع والمتقدم في جميع البيانات!
-  - **بحث في شاشة المجموعات**: ابحث عن اسم المجموعة، الموظف المسؤول، العميل، أو التفاصيل الإضافية
-  - **بحث في شاشة تفاصيل المجموعة**: ابحث في الاسم، الرقم القومي، رقم الخط، ID، رقم المحفظة، نظام الخط، أو التفاصيل
-  - **بحث فوري**: النتائج تظهر مباشرة أثناء الكتابة بدون الحاجة للضغط على زر
-  - **عداد النتائج**: عرض عدد النتائج المطابقة للبحث
-  - **واجهة سهلة**: صندوق بحث واضح ومرئي أعلى كل جدول
-  
-- **🔧 التحديثات التقنية**:
-  - إضافة خاصية `SearchQuery` و `FilterGroups()` في `ProviderGroupsViewModel`
-  - إضافة خاصية `SearchQuery` و `FilterLines()` في `GroupDetailsViewModel`
-  - استخدام `UpdateSourceTrigger=PropertyChanged` للبحث الفوري
-  - تحديث واجهات XAML لإضافة صندوق البحث مع عداد النتائج
-  - البناء ينجح بدون أخطاء أو تحذيرات (0 Warnings, 0 Errors)
-
-### Previous Features (November 8, 2025 - Unlimited Lines Per Group)
-- **♾️ إزالة حد الخطوط من المجموعات**: المجموعات الآن تستوعب عدد غير محدود من الخطوط!
-  - **إزالة القيد**: تمت إزالة الحد الأقصى للخطوط (50 خط) من المجموعات
-  - **مرونة كاملة**: يمكنك الآن إضافة أي عدد من الخطوط لأي مجموعة
-  - **استيراد غير محدود**: لم يعد هناك قيود على عدد الخطوط عند الاستيراد من Excel
-  - **واجهة محسّنة**: تحديث عرض عدد الخطوط بدون إظهار حد أقصى
-  
-- **🔧 التحديثات التقنية**:
-  - إزالة خاصية `MaxLines` من نموذج `LineGroup`
-  - إزالة خاصية `CanAddMoreLines` من نموذج `LineGroup`
-  - إزالة فحص الحد الأقصى من `GroupService.AddLineToGroup()`
-  - إزالة فحص الحد الأقصى من `GroupService.ImportLines()`
-  - تحديث `GroupDetailsViewModel` لإزالة الفحص عند إضافة خط جديد
-  - تحديث `SearchViewModel` لعرض عدد الخطوط بدون حد أقصى
-  - البناء ينجح بدون أخطاء أو تحذيرات (0 Warnings, 0 Errors)
-
-### Previous Features (November 5, 2025 - Flexible Excel Import)
-- **✨ جميع أعمدة الاستيراد أصبحت اختيارية**: نظام استيراد مرن وشامل بدون قيود!
-  - **لا توجد أعمدة إلزامية**: يمكنك استيراد أي مجموعة من الأعمدة التي تريدها
-  - **استيراد الصفوف الناقصة**: إذا كان صف لا يحتوي على بعض البيانات (مثل الرقم القومي)، يتم استيراده عادياً ويُترك الحقل فارغاً
-  - **إزالة التحقق من الصحة**: لم يعد النظام يتحقق من صحة الرقم القومي (14 رقم) أو رقم الخط (11 رقم)
-  - **مرونة كاملة**: يقبل أي قيمة أو يترك الحقل فارغاً حسب رغبتك
-  - **واجهة محسّنة**: جميع الأعمدة الآن لها checkboxes يمكن تفعيلها أو إلغاؤها
-  - **نص واضح**: تغيير "تحديد الأعمدة المطلوبة (إلزامي)" إلى "تحديد الأعمدة (اختياري)"
-  
-- **📝 التحديثات التقنية**:
-  - تحديث `CustomImportSettings` لجعل جميع الأعمدة nullable
-  - تحديث `ImportFromExcelWithCustomSettings()` لإزالة فحص الحقول الفارغة
-  - إزالة `IsValidNationalId()` و `IsValidPhoneNumber()` من منطق الاستيراد
-  - إضافة checkboxes لـ Name, NationalId, PhoneNumber في ImportSettingsDialog.xaml
-  - تحديث `OptionalColumn_Changed()` لمعالجة جميع الأعمدة
-  - تحديث `ImportButton_Click()` للتحقق فقط من الأعمدة المفعّلة
-
-### Previous Features (November 5, 2025 - Auto-Detection Enhancement)
-- **🎯 اكتشاف تلقائي للأعمدة في Excel**: البرنامج الآن يكتشف ويحدد الأعمدة تلقائياً عند الاستيراد!
-  - عند فتح ملف Excel، يقوم البرنامج بتحليل العناوين (Headers) تلقائياً
-  - يكتشف الأعمدة الأساسية: الاسم، الرقم القومي، رقم الخط
-  - يكتشف الأعمدة الاختيارية: الرقم الداخلي، محفظة كاش، رقم المحفظة، نظام الخط
-  - يحدد الأعمدة المكتشفة تلقائياً في نافذة الإعدادات
-  - يفعّل CheckBoxes للأعمدة الاختيارية إذا تم اكتشافها
-  - يعرض رسالة نجاح عند الاكتشاف التلقائي
-  - المستخدم يمكنه مراجعة وتعديل الاختيارات قبل الاستيراد
-  
-- **📋 تحسين نظام الاكتشاف**:
-  - إضافة دوال جديدة للاكتشاف: `IsInternalIdHeader`, `IsCashWalletHeader`, `IsWalletNumberHeader`, `IsLineSystemHeader`, `IsDetailsHeader`
-  - دعم كلمات مفتاحية بالعربية والإنجليزية لكل نوع عمود
-  - تحسين دقة الاكتشاف بمنع التداخل بين الأعمدة (مثل: رقم قومي vs رقم هاتف)
-  - دالة `DetectAllColumns()` عامة يمكن استخدامها من أي جزء في البرنامج
-
-### Latest Fixes (November 5, 2025 - Replit Import)
-- **Resource Resolution Fix**: Fixed "ModernCard" and "ModernButton" resource resolution errors in ImportSettingsDialog.xaml
-  - Replaced StaticResource references with inline style definitions
-  - Border component now uses direct properties (CornerRadius, Padding, BorderThickness, DropShadowEffect)
-  - Buttons now use inline ControlTemplate with all ModernButton properties
-  - This ensures the dialog works correctly even if resource dictionaries aren't merged properly
-  - Build succeeds with 0 errors and 0 warnings
-  
-- **MaterialDesign Namespace Cleanup**: Removed MaterialDesign dependencies from ImportSettingsDialog.xaml
-  - Removed `materialDesign:Card` component, replaced with standard Border
-  - Removed MaterialDesign namespace references
-  - Application now uses consistent custom styling throughout
-
-### New Features (November 5, 2025)
-- **Line System Field**: Added new "LineSystem" field to PhoneLine model to track line system information
-  - Added LineSystem property to PhoneLine model (max 100 characters)
-  - Added "نظام الخط" column in GroupDetailsWindow DataGrid
-  - Added "نظام الخط" input field in add/edit line form
-  - Added LineSystem support in Excel import (ImportSettingsDialog and ImportService)
-  - Added LineSystem column in Excel export (ExportService)
-  - Field is optional and can be left empty
-
-### Bug Fixes
-- **Line Deletion Fix**: Fixed issue where phone lines were not being deleted properly. Added ChangeTracker.Clear() before ExecuteDelete in GroupService.DeleteLine() to ensure clean deletion without tracking conflicts.
-- **NullReferenceException Fix**: Fixed crash when deleting groups or lines by storing group name before LoadGroups() call.
-- **Build Fix**: Fixed compilation error in ExportService.cs (exportLines variable) and SearchWindow.xaml.cs (nullability issue)
-
-### Previous Features
-- **Custom Excel Import Settings Dialog**:
-  - Created ImportSettingsDialog.xaml with comprehensive column selection interface
-  - Users can now customize which columns contain specific data using checkboxes
-  - Supports both required fields (Name, National ID, Phone Number) and optional fields (Internal ID, Cash Wallet status, Wallet Number)
-  - Shows column previews from the Excel file for easier selection
-  - Validates all required selections before import
-  - Added ImportService.ImportFromExcelWithCustomSettings() method for custom column mapping
-  - Supports custom boolean parsing for cash wallet (نعم/لا, yes/no, 1/0, true/false)
-
-- **Excel Import System**: 
-  - Added ImportService with smart column detection algorithm
-  - Supports files with or without headers
-  - Detects Arabic and English column names (اسم, Name, الرقم القومي, National ID, رقم, Phone, Mobile, etc.)
-  - Auto-validates national IDs (14 digits) and phone numbers (11 digits starting with 01)
-  - Normalizes phone numbers (removes spaces, dashes, +2 prefix)
-  - Generates Internal ID from row number
-  - Provides detailed import results with error reporting
-  - Added "📥 استيراد من Excel" button in GroupDetailsWindow
-  - GroupService.ImportLines() validates max lines limit before importing
