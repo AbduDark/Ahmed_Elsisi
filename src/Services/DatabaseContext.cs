@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using LineManagementSystem.Models;
+using LineManagementSystem.Models.Common;
+using LineManagementSystem.Models.Retail;
+using LineManagementSystem.Models.Repair;
+using LineManagementSystem.Models.CashTransfer;
 
 namespace LineManagementSystem.Services;
 
@@ -8,6 +12,27 @@ public class DatabaseContext : DbContext
     public DbSet<LineGroup> LineGroups { get; set; }
     public DbSet<PhoneLine> PhoneLines { get; set; }
     public DbSet<Alert> Alerts { get; set; }
+
+    public DbSet<Customer> Customers { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+    public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<SupplierOrder> SupplierOrders { get; set; }
+    public DbSet<SupplierOrderLine> SupplierOrderLines { get; set; }
+    public DbSet<SalesInvoice> SalesInvoices { get; set; }
+    public DbSet<SalesInvoiceLine> SalesInvoiceLines { get; set; }
+
+    public DbSet<RepairOrder> RepairOrders { get; set; }
+    public DbSet<Technician> Technicians { get; set; }
+    public DbSet<RepairPartUsed> RepairPartsUsed { get; set; }
+    public DbSet<RepairStatusHistory> RepairStatusHistories { get; set; }
+
+    public DbSet<CashProvider> CashProviders { get; set; }
+    public DbSet<CashTransferTransaction> CashTransferTransactions { get; set; }
+    public DbSet<CashBalance> CashBalances { get; set; }
+    public DbSet<BalanceHistory> BalanceHistories { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -29,6 +54,50 @@ public class DatabaseContext : DbContext
             .WithMany()
             .HasForeignKey(a => a.GroupId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SalesInvoice>()
+            .HasMany(i => i.Lines)
+            .WithOne(l => l.SalesInvoice)
+            .HasForeignKey(l => l.SalesInvoiceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SupplierOrder>()
+            .HasMany(o => o.Lines)
+            .WithOne(l => l.SupplierOrder)
+            .HasForeignKey(l => l.SupplierOrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<RepairOrder>()
+            .HasMany(r => r.PartsUsed)
+            .WithOne(p => p.RepairOrder)
+            .HasForeignKey(p => p.RepairOrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<RepairOrder>()
+            .HasMany(r => r.StatusHistory)
+            .WithOne(h => h.RepairOrder)
+            .HasForeignKey(h => h.RepairOrderId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Barcode)
+            .IsUnique();
+
+        modelBuilder.Entity<SalesInvoice>()
+            .HasIndex(i => i.InvoiceNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<SupplierOrder>()
+            .HasIndex(o => o.OrderNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<RepairOrder>()
+            .HasIndex(r => r.OrderNumber)
+            .IsUnique();
+
+        modelBuilder.Entity<CashTransferTransaction>()
+            .HasIndex(t => t.TransactionNumber)
+            .IsUnique();
     }
 
     public void EnsureCreated()
